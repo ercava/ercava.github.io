@@ -118,7 +118,15 @@
     }
   </style>
 </head>
-
+<script>
+  const path = window.location.pathname;
+  const segments = path.split('/').filter(Boolean);
+  const sIndex = segments.indexOf('s');
+  if (sIndex !== -1 && segments[sIndex + 1]) {
+    const code = segments[sIndex + 1].trim();
+    window.location.replace('/s/?c=' + code);
+  }
+</script>
 <body>
   <div class="wrap">
     <p class="error-code">404</p>
