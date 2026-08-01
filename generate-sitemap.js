@@ -67,7 +67,11 @@ for (const extra of EXTERNAL_REPOS) {
   }
 }
 
-routes = Array.from(new Set(routes));
+routes = Array.from(new Set(routes)).sort((a, b) => {
+  if (a === '/') return -1;
+  if (b === '/') return 1;
+  return a.localeCompare(b);
+});
 
 const today = new Date().toISOString().split('T')[0];
 
@@ -89,3 +93,4 @@ ${routes
 
 fs.writeFileSync(path.join(ROOT_DIR, 'sitemap.xml'), xml);
 console.log(`Generated sitemap.xml with ${routes.length} URLs.`);
+
