@@ -35,14 +35,21 @@ function getRoutes(dir, currentRelPath = '') {
     if (entry.isDirectory()) {
       const indexPath = path.join(fullPath, 'index.html');
       if (fs.existsSync(indexPath)) {
-        routes.push(`/${relPath}/`);
+        // Skip adding directory route if index.html is a redirect shell to another target (e.g. /tools/*)
+        const htmlContent = fs.readFileSync(indexPath, 'utf-8');
+        if (!htmlContent.includes('http-equiv="refresh"') && !htmlContent.includes('location.replace')) {
+          routes.push(`/${relPath}/`);
+        }
       }
       routes = routes.concat(getRoutes(fullPath, relPath));
     } else if (entry.name === 'index.html') {
       if (currentRelPath === '') {
         routes.push('/');
       } else {
-        routes.push(`/${currentRelPath}/`);
+        const htmlContent = fs.readFileSync(fullPath, 'utf-8');
+        if (!htmlContent.includes('http-equiv="refresh"') && !htmlContent.includes('location.replace')) {
+          routes.push(`/${currentRelPath}/`);
+        }
       }
     } else if (entry.name.endsWith('.html') && entry.name !== 'index.html') {
       routes.push(`/${relPath}`);
