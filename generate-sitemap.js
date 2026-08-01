@@ -38,8 +38,12 @@ function getRoutes(dir, currentRelPath = '') {
         routes.push(`/${relPath}/`);
       }
       routes = routes.concat(getRoutes(fullPath, relPath));
-    } else if (entry.name === 'index.html' && currentRelPath === '') {
-      routes.push('/');
+    } else if (entry.name === 'index.html') {
+      if (currentRelPath === '') {
+        routes.push('/');
+      } else {
+        routes.push(`/${currentRelPath}/`);
+      }
     } else if (entry.name.endsWith('.html') && entry.name !== 'index.html') {
       routes.push(`/${relPath}`);
     }
