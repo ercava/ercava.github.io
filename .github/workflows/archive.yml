@@ -1,0 +1,41 @@
+name: Automated Site Archive
+
+on:
+  push:
+    branches:
+      - main
+      - master
+    paths-ignore:
+      - 'archive/**'
+  repository_dispatch:
+    types: [tools_updated]
+  schedule:
+    - cron: '0 0 * * *'
+  workflow_dispatch:
+
+jobs:
+  archive:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout main repository
+        uses: actions/checkout@v4
+
+      - name: Checkout tools repository
+        uses: actions/checkout@v4
+        with:
+          repository: 'ercava/tools'
+          path: 'tools'
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Create Archive Snapshot
+        run: node archive.js
+
+      - name: Commit and push updated archive
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "chore: auto-archive site snapshot [skip ci]"
+          file_pattern: "archive/**"
