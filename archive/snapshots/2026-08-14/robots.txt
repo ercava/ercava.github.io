@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://erc.my.id/sitemap.xml
