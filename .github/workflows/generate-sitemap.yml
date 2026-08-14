@@ -8,6 +8,8 @@ on:
     paths-ignore:
       - 'sitemap.xml'
   workflow_dispatch:
+  schedule:
+    - cron: '0 1 * * *'  # daily at 01:00 UTC
 
 jobs:
   sitemap:
