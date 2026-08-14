@@ -5,14 +5,22 @@ on:
     branches:
       - main
       - master
+    paths-ignore:
+      - 'sitemap.xml'
   workflow_dispatch:
 
 jobs:
   sitemap:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout repository
+      - name: Checkout main repository
         uses: actions/checkout@v4
+
+      - name: Checkout tools repository
+        uses: actions/checkout@v4
+        with:
+          repository: 'ercava/tools'
+          path: 'tools'
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
@@ -25,5 +33,5 @@ jobs:
       - name: Commit and push updated sitemap
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
-          commit_message: "chore: update sitemap.xml automatically"
+          commit_message: "chore: update sitemap.xml automatically [skip ci]"
           file_pattern: "sitemap.xml"

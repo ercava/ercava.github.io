@@ -29,6 +29,11 @@ function getRoutes(dir, currentRelPath = '') {
       continue;
     }
 
+    // Exclude archive snapshots subfolder from sitemap
+    if (currentRelPath === 'archive' && entry.name === 'snapshots') {
+      continue;
+    }
+
     const fullPath = path.join(dir, entry.name);
     const relPath = currentRelPath ? `${currentRelPath}/${entry.name}` : entry.name;
 
@@ -59,19 +64,25 @@ function getRoutes(dir, currentRelPath = '') {
   return routes;
 }
 
-// Additional external repo paths mapped to subpaths
-const EXTERNAL_REPOS = [
-  { path: 'C:\\Users\\User\\Documents\\GitHub\\ercademy', baseRoute: 'ercademy' },
-  { path: 'C:\\Users\\User\\Documents\\GitHub\\tools', baseRoute: 'tools' }
-];
+// Multi-platform tools repo path resolution
+const INNER_TOOLS_DIR = path.resolve(ROOT_DIR, 'tools');
+const LOCAL_TOOLS_DIR = 'C:\\Users\\User\\Documents\\GitHub\\tools';
+const REL_TOOLS_DIR = path.resolve(ROOT_DIR, '../tools');
+
+let toolsPath = null;
+if (fs.existsSync(INNER_TOOLS_DIR)) {
+  toolsPath = INNER_TOOLS_DIR;
+} else if (fs.existsSync(LOCAL_TOOLS_DIR)) {
+  toolsPath = LOCAL_TOOLS_DIR;
+} else if (fs.existsSync(REL_TOOLS_DIR)) {
+  toolsPath = REL_TOOLS_DIR;
+}
 
 let routes = getRoutes(ROOT_DIR);
 
-for (const extra of EXTERNAL_REPOS) {
-  if (fs.existsSync(extra.path)) {
-    const extraRoutes = getRoutes(extra.path, extra.baseRoute);
-    routes = routes.concat(extraRoutes);
-  }
+if (toolsPath && fs.existsSync(toolsPath) && toolsPath !== ROOT_DIR) {
+  const extraRoutes = getRoutes(toolsPath, 'tools');
+  routes = routes.concat(extraRoutes);
 }
 
 routes = Array.from(new Set(routes)).sort((a, b) => {
@@ -100,4 +111,3 @@ ${routes
 
 fs.writeFileSync(path.join(ROOT_DIR, 'sitemap.xml'), xml);
 console.log(`Generated sitemap.xml with ${routes.length} URLs.`);
-

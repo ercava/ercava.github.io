@@ -1,6 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 import crypto from 'crypto';
+import zlib from 'zlib';
 
 const ROOT_DIR = process.cwd();
 
@@ -20,6 +21,7 @@ if (fs.existsSync(INNER_TOOLS_DIR)) {
 
 const ARCHIVE_DIR = path.join(ROOT_DIR, 'archive');
 const SNAPSHOTS_DIR = path.join(ARCHIVE_DIR, 'snapshots');
+const MANIFEST_FILE = path.join(ARCHIVE_DIR, 'manifest.json');
 
 const EXCLUDE = new Set([
   '.git',
@@ -29,9 +31,10 @@ const EXCLUDE = new Set([
   'node_modules'
 ]);
 
-function getDirFilesHash(src, relBase = '', hasher = crypto.createHash('sha256')) {
-  if (!fs.existsSync(src)) return hasher;
+function collectPages(src, relBase = '') {
+  if (!fs.existsSync(src)) return {};
 
+  let pages = {};
   const entries = fs.readdirSync(src, { withFileTypes: true }).sort((a, b) => a.name.localeCompare(b.name));
 
   for (const entry of entries) {
@@ -41,102 +44,92 @@ function getDirFilesHash(src, relBase = '', hasher = crypto.createHash('sha256')
     const relPath = relBase ? `${relBase}/${entry.name}` : entry.name;
 
     if (entry.isDirectory()) {
-      getDirFilesHash(srcPath, relPath, hasher);
-    } else {
-      hasher.update(relPath);
-      hasher.update(fs.readFileSync(srcPath));
+      Object.assign(pages, collectPages(srcPath, relPath));
+    } else if (entry.name === 'index.html') {
+      const route = relBase ? `/${relBase}/` : '/';
+      pages[route] = fs.readFileSync(srcPath, 'utf-8');
+    } else if (entry.name.endsWith('.html')) {
+      pages[`/${relPath}`] = fs.readFileSync(srcPath, 'utf-8');
     }
   }
 
-  return hasher;
+  return pages;
 }
 
-// Compute total hash for site + tools
-const hasher = crypto.createHash('sha256');
-getDirFilesHash(ROOT_DIR, '', hasher);
+console.log('Collecting page contents...');
+
+// Collect HTML pages from main site & tools
+const mainPages = collectPages(ROOT_DIR);
+let toolsPages = {};
 if (TOOLS_DIR && fs.existsSync(TOOLS_DIR) && TOOLS_DIR !== ROOT_DIR) {
-  getDirFilesHash(TOOLS_DIR, 'tools', hasher);
+  toolsPages = collectPages(TOOLS_DIR, 'tools');
+}
+
+const allPages = { ...mainPages, ...toolsPages };
+
+// Compute SHA-256 content hash
+const hasher = crypto.createHash('sha256');
+const sortedRoutes = Object.keys(allPages).sort();
+for (const route of sortedRoutes) {
+  hasher.update(route);
+  hasher.update(allPages[route]);
 }
 const siteHash = hasher.digest('hex');
 
 // Read existing manifest
-const manifestPath = path.join(ARCHIVE_DIR, 'manifest.json');
 let manifest = { snapshots: [] };
-
-if (fs.existsSync(manifestPath)) {
+if (fs.existsSync(MANIFEST_FILE)) {
   try {
-    manifest = JSON.parse(fs.readFileSync(manifestPath, 'utf-8'));
+    manifest = JSON.parse(fs.readFileSync(MANIFEST_FILE, 'utf-8'));
   } catch (e) {
     manifest = { snapshots: [] };
   }
 }
 
-const latestSnapshot = manifest.snapshots[0];
 const today = new Date().toISOString().split('T')[0];
+const latestSnapshot = manifest.snapshots[0];
 
 if (latestSnapshot && latestSnapshot.hash === siteHash) {
-  console.log(`No content changes detected (hash: ${siteHash.substring(0, 8)}, latest snapshot: ${latestSnapshot.date}).`);
-  console.log('Skipping snapshot creation to avoid duplicate storage.');
+  console.log(`No content changes detected (hash: ${siteHash.substring(0, 8)}, latest: ${latestSnapshot.date}).`);
+  console.log('Skipping snapshot creation.');
   process.exit(0);
 }
 
-function copyDir(src, dest, relBase = '') {
-  if (!fs.existsSync(src)) return [];
-  fs.mkdirSync(dest, { recursive: true });
-  
-  let routes = [];
-  const entries = fs.readdirSync(src, { withFileTypes: true });
+fs.mkdirSync(SNAPSHOTS_DIR, { recursive: true });
 
-  for (const entry of entries) {
-    if (EXCLUDE.has(entry.name) || entry.name.startsWith('.')) continue;
+// Create single compressed JSON file per snapshot date
+const snapshotData = {
+  date: today,
+  timestamp: new Date().toISOString(),
+  hash: siteHash,
+  pages: allPages
+};
 
-    const srcPath = path.join(src, entry.name);
-    const destPath = path.join(dest, entry.name);
-    const relPath = relBase ? `${relBase}/${entry.name}` : entry.name;
+const jsonStr = JSON.stringify(snapshotData);
+const compressed = zlib.gzipSync(Buffer.from(jsonStr));
 
-    if (entry.isDirectory()) {
-      routes = routes.concat(copyDir(srcPath, destPath, relPath));
-    } else {
-      fs.copyFileSync(srcPath, destPath);
-      if (entry.name === 'index.html') {
-        routes.push(relBase ? `/${relBase}/` : '/');
-      } else if (entry.name.endsWith('.html')) {
-        routes.push(`/${relPath}`);
-      }
-    }
-  }
+const snapshotFileName = `${today}.json.gz`;
+const snapshotFilePath = path.join(SNAPSHOTS_DIR, snapshotFileName);
+fs.writeFileSync(snapshotFilePath, compressed);
 
-  return routes;
-}
-
-const targetSnapshotDir = path.join(SNAPSHOTS_DIR, today);
-console.log(`Content changes detected. Creating snapshot for ${today}...`);
-
-// Copy root site
-let mainRoutes = copyDir(ROOT_DIR, targetSnapshotDir);
-
-// Copy tools repo into snapshots/YYYY-MM-DD/tools if exists
-let toolsRoutes = [];
-if (TOOLS_DIR && fs.existsSync(TOOLS_DIR) && TOOLS_DIR !== targetSnapshotDir) {
-  toolsRoutes = copyDir(TOOLS_DIR, path.join(targetSnapshotDir, 'tools'), 'tools');
-}
-
-const allRoutes = Array.from(new Set([...mainRoutes, ...toolsRoutes])).sort();
-
-// Remove existing snapshot entry for today if re-running with new changes
+// Update manifest
 manifest.snapshots = manifest.snapshots.filter(s => s.date !== today);
-
 manifest.snapshots.unshift({
   date: today,
   timestamp: new Date().toISOString(),
   hash: siteHash,
-  path: `snapshots/${today}`,
-  routes: allRoutes
+  file: `snapshots/${snapshotFileName}`,
+  routes: sortedRoutes
 });
 
 manifest.snapshots.sort((a, b) => b.date.localeCompare(a.date));
+fs.writeFileSync(MANIFEST_FILE, JSON.stringify(manifest, null, 2));
 
-fs.writeFileSync(manifestPath, JSON.stringify(manifest, null, 2));
+// Clean up legacy snapshots.json if present
+const legacySingleFile = path.join(ARCHIVE_DIR, 'snapshots.json');
+if (fs.existsSync(legacySingleFile)) {
+  fs.rmSync(legacySingleFile, { force: true });
+}
 
-console.log(`Snapshot saved to archive/snapshots/${today} [hash: ${siteHash.substring(0, 8)}]`);
-console.log(`Manifest updated with ${allRoutes.length} archived routes.`);
+console.log(`Saved compressed snapshot: archive/snapshots/${snapshotFileName} (${(compressed.length / 1024).toFixed(1)} KB) [hash: ${siteHash.substring(0, 8)}]`);
+console.log(`Manifest updated with ${sortedRoutes.length} archived routes.`);

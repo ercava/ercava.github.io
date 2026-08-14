@@ -41,7 +41,7 @@
 
     .container {
       width: 100%;
-      max-width: 900px;
+      max-width: 960px;
       background: var(--bg);
       border: 1px solid var(--line);
       border-radius: 12px;
@@ -172,26 +172,28 @@
 
     <div class="controls-grid">
       <div class="form-group">
-        <label for="snapshotSelect">Snapshot Date</label>
+        <label for="snapshotSelect">Tanggal Snapshot</label>
         <select id="snapshotSelect"></select>
       </div>
 
       <div class="form-group">
-        <label for="routeSelect">Page Route</label>
+        <label for="routeSelect">Halaman Route</label>
         <select id="routeSelect"></select>
       </div>
 
-      <a id="openTabBtn" href="#" target="_blank" class="action-btn">Buka Page ↗</a>
+      <button id="openTabBtn" class="action-btn">Buka Page ↗</button>
     </div>
 
     <div class="viewer-wrapper">
-      <div class="empty-state" id="emptyState">Memuat index arsip...</div>
+      <div class="empty-state" id="emptyState">Memuat manifest...</div>
       <iframe id="archiveFrame" style="display: none;"></iframe>
     </div>
   </div>
 
   <script>
     let manifestData = null;
+    let currentLoadedSnapshot = null;
+    let currentLoadedFile = null;
 
     const snapshotSelect = document.getElementById('snapshotSelect');
     const routeSelect = document.getElementById('routeSelect');
@@ -202,7 +204,7 @@
     async function initArchive() {
       try {
         const res = await fetch('manifest.json');
-        if (!res.ok) throw new Error('manifest.json not found');
+        if (!res.ok) throw new Error('manifest.json tidak ditemukan');
         manifestData = await res.json();
 
         if (!manifestData.snapshots || manifestData.snapshots.length === 0) {
@@ -212,32 +214,70 @@
 
         populateSnapshots();
       } catch (err) {
-        emptyState.textContent = 'Gagal memuat manifest. Jalankan "node archive.js".';
+        emptyState.textContent = 'Gagal memuat manifest.json. Jalankan "node archive.js".';
         console.error(err);
       }
     }
 
     function populateSnapshots() {
       snapshotSelect.innerHTML = manifestData.snapshots.map(s => 
-        `<option value="${s.path}">${s.date} (${s.routes ? s.routes.length : 0} halaman)</option>`
+        `<option value="${s.file}">${s.date} (${s.routes ? s.routes.length : 0} halaman)</option>`
       ).join('');
 
-      snapshotSelect.addEventListener('change', updateRoutes);
+      snapshotSelect.addEventListener('change', onSnapshotChange);
       routeSelect.addEventListener('change', loadPage);
+      openTabBtn.addEventListener('click', openInNewTab);
+
+      onSnapshotChange();
+    }
+
+    async function onSnapshotChange() {
+      const filePath = snapshotSelect.value;
+      if (!filePath) return;
+
+      if (currentLoadedFile !== filePath) {
+        emptyState.textContent = 'Mendekompresi snapshot...';
+        emptyState.style.display = 'flex';
+        archiveFrame.style.display = 'none';
+
+        try {
+          currentLoadedSnapshot = await fetchAndDecompress(filePath);
+          currentLoadedFile = filePath;
+        } catch (err) {
+          emptyState.textContent = 'Gagal mendekompresi snapshot.';
+          console.error(err);
+          return;
+        }
+      }
 
       updateRoutes();
     }
 
-    function updateRoutes() {
-      const selectedPath = snapshotSelect.value;
-      const snapshot = manifestData.snapshots.find(s => s.path === selectedPath);
+    async function fetchAndDecompress(filePath) {
+      const res = await fetch(filePath);
+      if (!res.ok) throw new Error(`HTTP error ${res.status}`);
 
-      if (!snapshot || !snapshot.routes || snapshot.routes.length === 0) {
+      let jsonStr;
+      if (typeof DecompressionStream !== 'undefined') {
+        const decompressedStream = res.body.pipeThrough(new DecompressionStream('gzip'));
+        jsonStr = await new Response(decompressedStream).text();
+      } else {
+        // Fallback if browser lacks DecompressionStream
+        const arrayBuffer = await res.arrayBuffer();
+        jsonStr = new TextDecoder().decode(arrayBuffer);
+      }
+
+      return JSON.parse(jsonStr);
+    }
+
+    function updateRoutes() {
+      if (!currentLoadedSnapshot || !currentLoadedSnapshot.pages) {
         routeSelect.innerHTML = '<option value="">Tidak ada halaman</option>';
         return;
       }
 
-      routeSelect.innerHTML = snapshot.routes.map(r => 
+      const routes = Object.keys(currentLoadedSnapshot.pages).sort();
+      routeSelect.innerHTML = routes.map(r => 
         `<option value="${r}">${r}</option>`
       ).join('');
 
@@ -245,25 +285,32 @@
     }
 
     function loadPage() {
-      const snapshotPath = snapshotSelect.value;
       const route = routeSelect.value;
 
-      if (!snapshotPath || !route) return;
+      if (!currentLoadedSnapshot || !route) return;
 
-      let targetFile = route;
-      if (route.endsWith('/')) {
-        targetFile += 'index.html';
+      const html = currentLoadedSnapshot.pages[route];
+
+      if (html) {
+        archiveFrame.srcdoc = html;
+        archiveFrame.style.display = 'block';
+        emptyState.style.display = 'none';
+      } else {
+        emptyState.textContent = 'Halaman tidak ditemukan dalam snapshot ini.';
+        emptyState.style.display = 'flex';
+        archiveFrame.style.display = 'none';
       }
-      if (targetFile.startsWith('/')) {
-        targetFile = targetFile.substring(1);
-      }
+    }
 
-      const fullUrl = `${snapshotPath}/${targetFile}`;
-      archiveFrame.src = fullUrl;
-      openTabBtn.href = fullUrl;
+    function openInNewTab() {
+      const route = routeSelect.value;
+      const html = currentLoadedSnapshot && currentLoadedSnapshot.pages ? currentLoadedSnapshot.pages[route] : null;
 
-      archiveFrame.style.display = 'block';
-      emptyState.style.display = 'none';
+      if (!html) return;
+
+      const blob = new Blob([html], { type: 'text/html' });
+      const url = URL.createObjectURL(blob);
+      window.open(url, '_blank');
     }
 
     initArchive();
