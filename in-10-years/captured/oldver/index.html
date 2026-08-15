@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Old Versions</title>
+  <link rel="icon" type="image/x-icon" href="/favicon.ico">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700;800&family=Roboto+Mono:wght@500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #26568c;
+      --accent: #152638;
+      --bg: #ffffff;
+      --bg-light: #f8fafc;
+      --text: #1f2937;
+      --muted: #64748b;
+      --line: #e2e8f0;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Montserrat', system-ui, -apple-system, sans-serif;
+      background: var(--bg);
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 56 28' width='56' height='28'%3E%3Cpath fill='%23f0f4f8' fill-opacity='0.8' d='M56 26v2h-7.75c2.3-1.27 4.94-2 7.75-2zm-26 2a2 2 0 1 0-4 0h-4.09A25.98 25.98 0 0 0 0 16v-2c.67 0 1.34.02 2 .07V14a2 2 0 0 0-2-2v-2a4 4 0 0 1 3.98 3.6 28.09 28.09 0 0 1 2.8-3.86A8 8 0 0 0 0 6V4a9.99 9.99 0 0 1 8.17 4.23c.94-.95 1.96-1.83 3.03-2.63A13.98 13.98 0 0 0 0 0h7.75c2 1.1 3.73 2.63 5.1 4.45 1.12-.72 2.3-1.37 3.53-1.93A20.1 20.1 0 0 0 14.28 0h2.7c.45.56.88 1.14 1.29 1.74 1.3-.48 2.63-.87 4-1.15-.11-.2-.23-.4-.36-.59H26v.07a28.4 28.4 0 0 1 4 0V0h4.09l-.37.59c1.38.28 2.72.67 4.01 1.15.4-.6.84-1.18 1.3-1.74h2.69a20.1 20.1 0 0 0-2.1 2.52c1.23.56 2.41 1.2 3.54 1.93A16.08 16.08 0 0 1 48.25 0H56c-4.58 0-8.65 2.2-11.2 5.6 1.07.8 2.09 1.68 3.03 2.63A9.99 9.99 0 0 1 56 4v2a8 8 0 0 0-6.77 3.74c1.03 1.2 1.97 2.5 2.79 3.86A4 4 0 0 1 56 10v2a2 2 0 0 0-2 2.07 28.4 28.4 0 0 1 2-.07v2c-9.2 0-17.3 4.78-21.91 12H30zM7.75 28H0v-2c2.81 0 5.46.73 7.75 2zM56 20v2c-5.6 0-10.65 2.3-14.28 6h-2.7c4.04-4.89 10.15-8 16.98-8zm-39.03 8h-2.69C10.65 24.3 5.6 22 0 22v-2c6.83 0 12.94 3.11 16.97 8zm15.01-.4a28.09 28.09 0 0 1 2.8-3.86 8 8 0 0 0-13.55 0c1.03 1.2 1.97 2.5 2.79 3.86a4 4 0 0 1 7.96 0zm14.29-11.86c1.3-.48 2.63-.87 4-1.15a25.99 25.99 0 0 0-44.55 0c1.38.28 2.72.67 4.01 1.15a21.98 21.98 0 0 1 36.54 0zm-5.43 2.71c1.13-.72 2.3-1.37 3.54-1.93a19.98 19.98 0 0 0-32.76 0c1.23.56 2.41 1.2 3.54 1.93a15.98 15.98 0 0 1 25.68 0zm-4.67 3.78c.94-.95 1.96-1.83 3.03-2.63a13.98 13.98 0 0 0-22.4 0c1.07.8 2.09 1.68 3.03 2.63a9.99 9.99 0 0 1 16.34 0z'%3E%3C/path%3E%3C/svg%3E");
+      color: var(--text);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1.5rem;
+      overflow-x: hidden;
+    }
+
+    .stage {
+      position: relative;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .container {
+      width: 480px;
+      max-width: calc(100vw - 3rem);
+      background: var(--bg);
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 1.25rem;
+      position: relative;
+    }
+
+    .player-wrapper {
+      position: relative;
+      width: 100%;
+      background: #000000;
+      border-radius: 8px;
+      overflow: hidden;
+      border: 1px solid var(--line);
+      aspect-ratio: 9 / 16;
+      max-height: 500px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 0.85rem;
+    }
+
+    @media (min-width: 580px) {
+      .player-wrapper {
+        aspect-ratio: 16 / 9;
+      }
+    }
+
+    video {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      background: #000000;
+    }
+
+    .loading-overlay {
+      position: absolute;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.7);
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      color: #ffffff;
+      font-size: 0.78rem;
+      font-family: 'Roboto Mono', monospace;
+      z-index: 10;
+    }
+
+    .loading-overlay.show {
+      display: flex;
+    }
+
+    .spinner {
+      width: 24px;
+      height: 24px;
+      border: 3px solid rgba(255, 255, 255, 0.3);
+      border-top-color: #ffffff;
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    .video-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.5rem;
+    }
+
+    .video-info {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      min-width: 0;
+    }
+
+    .active-title {
+      font-family: 'Roboto Mono', monospace;
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: var(--accent);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .video-counter {
+      font-family: 'Roboto Mono', monospace;
+      font-size: 0.72rem;
+      font-weight: 600;
+      color: var(--muted);
+      flex-shrink: 0;
+    }
+
+    .sidebar-btn {
+      background: var(--bg-light);
+      border: 1px solid var(--line);
+      color: var(--accent);
+      padding: 0.45rem 0.75rem;
+      border-radius: 6px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      font-family: inherit;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      transition: all 0.2s ease;
+      flex-shrink: 0;
+    }
+
+    .sidebar-btn:hover, .sidebar-btn.active {
+      background: var(--accent);
+      color: #ffffff;
+      border-color: var(--accent);
+    }
+
+    .sidebar-btn svg {
+      width: 14px;
+      height: 14px;
+      fill: currentColor;
+    }
+
+    .sidebar-pane {
+      position: absolute;
+      left: calc(100% + 14px);
+      top: 0;
+      bottom: 0;
+      width: 240px;
+      background: var(--bg);
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 10px 25px rgba(21, 38, 56, 0.08);
+      opacity: 0;
+      pointer-events: none;
+      transform: translateX(-10px);
+      transition: opacity 0.25s ease, transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+      z-index: 50;
+    }
+
+    .sidebar-pane.open {
+      opacity: 1;
+      pointer-events: auto;
+      transform: translateX(0);
+    }
+
+    @media (max-width: 820px) {
+      .sidebar-pane {
+        left: auto;
+        right: 0;
+        width: 220px;
+        box-shadow: -4px 0 20px rgba(0, 0, 0, 0.15);
+      }
+    }
+
+    .sidebar-header {
+      padding: 0.75rem 0.85rem;
+      border-bottom: 1px solid var(--line);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: var(--bg-light);
+      border-radius: 11px 11px 0 0;
+    }
+
+    .sidebar-title {
+      font-size: 0.78rem;
+      font-weight: 800;
+      color: var(--accent);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .close-btn {
+      background: transparent;
+      border: none;
+      color: var(--muted);
+      cursor: pointer;
+      padding: 0.2rem;
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: color 0.2s;
+    }
+
+    .close-btn:hover {
+      color: var(--accent);
+    }
+
+    .close-btn svg {
+      width: 16px;
+      height: 16px;
+      fill: currentColor;
+    }
+
+    .sidebar-list {
+      flex: 1;
+      overflow-y: auto;
+      padding: 0.45rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.25rem;
+    }
+
+    .sidebar-list::-webkit-scrollbar {
+      width: 4px;
+    }
+
+    .sidebar-list::-webkit-scrollbar-thumb {
+      background: var(--line);
+      border-radius: 4px;
+    }
+
+    .sidebar-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.45rem 0.65rem;
+      border-radius: 6px;
+      background: var(--bg-light);
+      border: 1px solid transparent;
+      color: var(--text);
+      font-family: 'Roboto Mono', monospace;
+      font-size: 0.72rem;
+      font-weight: 600;
+      cursor: pointer;
+      text-align: left;
+      transition: all 0.15s ease;
+    }
+
+    .sidebar-item:hover {
+      background: var(--line);
+      color: var(--accent);
+    }
+
+    .sidebar-item.active {
+      background: var(--accent);
+      color: #ffffff;
+    }
+
+    .item-num {
+      font-size: 0.65rem;
+      opacity: 0.6;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="stage">
+    <div class="container">
+      <div class="player-wrapper">
+        <video id="main-player" controls playsinline preload="metadata">
+          <source id="video-source" src="0812 - comp.mp4" type="video/mp4">
+          Your browser does not support the video tag.
+        </video>
+        <div class="loading-overlay" id="loading-overlay">
+          <div class="spinner"></div>
+          <span id="loading-text">Loading parts...</span>
+        </div>
+      </div>
+
+      <!-- Minimal Bottom Bar -->
+      <div class="video-bar">
+        <div class="video-info">
+          <span class="active-title" id="active-name">0812 - comp.mp4</span>
+          <span class="video-counter" id="active-count">1 / 5</span>
+        </div>
+
+        <button type="button" class="sidebar-btn" id="toggle-sidebar-btn" title="Toggle cuts list">
+          <svg viewBox="0 0 24 24">
+            <path d="M4 10h12v2H4zm0-4h16v2H4zm0 8h8v2H4zm10 0v6l5-3z"/>
+          </svg>
+          <span>List</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Attached Right Scrollable Sidebar -->
+    <aside class="sidebar-pane" id="sidebar">
+      <div class="sidebar-header">
+        <span class="sidebar-title">Old Versions (5)</span>
+        <button type="button" class="close-btn" id="close-sidebar-btn" title="Close">
+          <svg viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </div>
+
+      <div class="sidebar-list" id="sidebar-list"></div>
+    </aside>
+  </div>
+
+  <script>
+    const videos = [
+      { name: "0812 - comp.mp4", parts: null },
+      { name: "0812(1) - comp.mp4", parts: 4 },
+      { name: "0812(1).mp4", parts: 7 },
+      { name: "0812.mp4", parts: 7 },
+      { name: "0815.mp4", parts: 3 }
+    ];
+
+    const player = document.getElementById('main-player');
+    const source = document.getElementById('video-source');
+    const activeName = document.getElementById('active-name');
+    const activeCount = document.getElementById('active-count');
+    const sidebarList = document.getElementById('sidebar-list');
+    const sidebar = document.getElementById('sidebar');
+    const toggleBtn = document.getElementById('toggle-sidebar-btn');
+    const closeBtn = document.getElementById('close-sidebar-btn');
+    const loadingOverlay = document.getElementById('loading-overlay');
+    const loadingText = document.getElementById('loading-text');
+
+    let currentIndex = 0;
+    let isSidebarOpen = false;
+    let currentBlobUrl = null;
+
+    function toggleSidebar() {
+      isSidebarOpen = !isSidebarOpen;
+      if (isSidebarOpen) {
+        sidebar.classList.add('open');
+        toggleBtn.classList.add('active');
+      } else {
+        sidebar.classList.remove('open');
+        toggleBtn.classList.remove('active');
+      }
+    }
+
+    toggleBtn.addEventListener('click', toggleSidebar);
+    closeBtn.addEventListener('click', toggleSidebar);
+
+    function renderList() {
+      sidebarList.innerHTML = '';
+      videos.forEach((vid, idx) => {
+        const item = document.createElement('button');
+        item.type = 'button';
+        item.className = `sidebar-item ${idx === currentIndex ? 'active' : ''}`;
+        
+        const nameSpan = document.createElement('span');
+        nameSpan.textContent = vid.name.replace('.mp4', '');
+
+        const numSpan = document.createElement('span');
+        numSpan.className = 'item-num';
+        numSpan.textContent = `#${idx + 1}`;
+
+        item.appendChild(nameSpan);
+        item.appendChild(numSpan);
+
+        item.addEventListener('click', () => {
+          loadVideo(idx);
+        });
+        sidebarList.appendChild(item);
+      });
+    }
+
+    async function loadVideo(index) {
+      currentIndex = index;
+      const vid = videos[currentIndex];
+      activeName.textContent = vid.name;
+      activeCount.textContent = `${currentIndex + 1} / ${videos.length}`;
+      renderList();
+
+      if (currentBlobUrl) {
+        URL.revokeObjectURL(currentBlobUrl);
+        currentBlobUrl = null;
+      }
+
+      if (!vid.parts) {
+        // Single direct mp4
+        loadingOverlay.classList.remove('show');
+        source.src = encodeURIComponent(vid.name);
+        player.load();
+        player.play().catch(() => {});
+      } else {
+        // Parallel fetch and recombine parts on-the-fly in browser
+        loadingOverlay.classList.add('show');
+        loadingText.textContent = `Recombining 0/${vid.parts} parts...`;
+
+        try {
+          let loadedCount = 0;
+          const partPromises = Array.from({ length: vid.parts }, async (_, p) => {
+            const partFile = `${vid.name}.part${String(p).padStart(2, '0')}`;
+            const res = await fetch(encodeURIComponent(partFile));
+            if (!res.ok) throw new Error(`HTTP ${res.status} on ${partFile}`);
+            const buf = await res.arrayBuffer();
+            loadedCount++;
+            loadingText.textContent = `Recombining ${loadedCount}/${vid.parts} parts (${Math.round((loadedCount / vid.parts) * 100)}%)...`;
+            return { index: p, buffer: buf };
+          });
+
+          const results = await Promise.all(partPromises);
+          results.sort((a, b) => a.index - b.index);
+          const orderedBuffers = results.map(r => r.buffer);
+
+          const blob = new Blob(orderedBuffers, { type: 'video/mp4' });
+          currentBlobUrl = URL.createObjectURL(blob);
+          source.src = currentBlobUrl;
+          player.load();
+          player.play().catch(() => {});
+        } catch (e) {
+          console.error("Recombination failed:", e);
+          loadingText.textContent = `Error: ${e.message}`;
+          return;
+        } finally {
+          loadingOverlay.classList.remove('show');
+        }
+      }
+    }
+
+    player.addEventListener('ended', () => {
+      if (currentIndex < videos.length - 1) {
+        loadVideo(currentIndex + 1);
+      }
+    });
+
+    renderList();
+    loadVideo(0);
+  </script>
+</body>
+</html>
