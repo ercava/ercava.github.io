@@ -2,8 +2,8 @@
   "snapshots": [
     {
       "date": "2026-08-15",
-      "timestamp": "2026-08-15T16:07:05.365Z",
-      "hash": "5b97bbbd56750c0a50047c39ef7a542446ee61a16b47673fc6f19b25ccfe64d0",
+      "timestamp": "2026-08-15T18:53:20.212Z",
+      "hash": "c61c35797d5d55db7bbb4452dd8beeb4e4fa54eafc1f25c404c216f64e03d12e",
       "file": "snapshots/2026-08-15.json.gz",
       "routes": [
         "/",
@@ -15,6 +15,9 @@
         "/gopin/",
         "/harian-pestamerta/",
         "/in-10-years/",
+        "/in-10-years/captured/",
+        "/in-10-years/captured/bloopers/",
+        "/in-10-years/captured/oldver/",
         "/kabataku/",
         "/logo/",
         "/molly/",
