@@ -9,6 +9,15 @@
   <url>
     <loc>https://erc.my.id/archive/</loc>
     <lastmod>2026-08-15</lastmod>
+<<<<<<< Updated upstream
+=======
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://erc.my.id/in-10-years/</loc>
+    <lastmod>2026-08-15</lastmod>
+>>>>>>> Stashed changes
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>

@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>In 10 Years</title>
+  <link rel="icon" type="image/x-icon" href="/favicon.ico">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;800;900&family=Roboto+Mono:wght@500;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #26568c;
+      --accent: #152638;
+      --bg: #ffffff;
+      --bg-light: #f8fafc;
+      --text: #1f2937;
+      --muted: #64748b;
+      --line: #e2e8f0;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Montserrat', system-ui, -apple-system, sans-serif;
+      background: var(--bg);
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 56 28' width='56' height='28'%3E%3Cpath fill='%23f0f4f8' fill-opacity='0.8' d='M56 26v2h-7.75c2.3-1.27 4.94-2 7.75-2zm-26 2a2 2 0 1 0-4 0h-4.09A25.98 25.98 0 0 0 0 16v-2c.67 0 1.34.02 2 .07V14a2 2 0 0 0-2-2v-2a4 4 0 0 1 3.98 3.6 28.09 28.09 0 0 1 2.8-3.86A8 8 0 0 0 0 6V4a9.99 9.99 0 0 1 8.17 4.23c.94-.95 1.96-1.83 3.03-2.63A13.98 13.98 0 0 0 0 0h7.75c2 1.1 3.73 2.63 5.1 4.45 1.12-.72 2.3-1.37 3.53-1.93A20.1 20.1 0 0 0 14.28 0h2.7c.45.56.88 1.14 1.29 1.74 1.3-.48 2.63-.87 4-1.15-.11-.2-.23-.4-.36-.59H26v.07a28.4 28.4 0 0 1 4 0V0h4.09l-.37.59c1.38.28 2.72.67 4.01 1.15.4-.6.84-1.18 1.3-1.74h2.69a20.1 20.1 0 0 0-2.1 2.52c1.23.56 2.41 1.2 3.54 1.93A16.08 16.08 0 0 1 48.25 0H56c-4.58 0-8.65 2.2-11.2 5.6 1.07.8 2.09 1.68 3.03 2.63A9.99 9.99 0 0 1 56 4v2a8 8 0 0 0-6.77 3.74c1.03 1.2 1.97 2.5 2.79 3.86A4 4 0 0 1 56 10v2a2 2 0 0 0-2 2.07 28.4 28.4 0 0 1 2-.07v2c-9.2 0-17.3 4.78-21.91 12H30zM7.75 28H0v-2c2.81 0 5.46.73 7.75 2zM56 20v2c-5.6 0-10.65 2.3-14.28 6h-2.7c4.04-4.89 10.15-8 16.98-8zm-39.03 8h-2.69C10.65 24.3 5.6 22 0 22v-2c6.83 0 12.94 3.11 16.97 8zm15.01-.4a28.09 28.09 0 0 1 2.8-3.86 8 8 0 0 0-13.55 0c1.03 1.2 1.97 2.5 2.79 3.86a4 4 0 0 1 7.96 0zm14.29-11.86c1.3-.48 2.63-.87 4-1.15a25.99 25.99 0 0 0-44.55 0c1.38.28 2.72.67 4.01 1.15a21.98 21.98 0 0 1 36.54 0zm-5.43 2.71c1.13-.72 2.3-1.37 3.54-1.93a19.98 19.98 0 0 0-32.76 0c1.23.56 2.41 1.2 3.54 1.93a15.98 15.98 0 0 1 25.68 0zm-4.67 3.78c.94-.95 1.96-1.83 3.03-2.63a13.98 13.98 0 0 0-22.4 0c1.07.8 2.09 1.68 3.03 2.63a9.99 9.99 0 0 1 16.34 0z'%3E%3C/path%3E%3C/svg%3E");
+      color: var(--text);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1.5rem;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 480px;
+      background: var(--bg);
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 2rem;
+      position: relative;
+    }
+
+    .logo-header {
+      text-align: center;
+      margin-bottom: 1.5rem;
+    }
+
+    .erc-logo {
+      height: 72px;
+      width: auto;
+      display: block;
+      margin: 0 auto;
+      object-fit: contain;
+    }
+
+    .countdown-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 0.5rem;
+      margin-bottom: 1rem;
+    }
+
+    .time-card {
+      background: var(--bg-light);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 0.75rem 0.25rem;
+      text-align: center;
+    }
+
+    .time-num {
+      font-family: 'Roboto Mono', monospace;
+      font-size: 1.35rem;
+      font-weight: 700;
+      color: var(--accent);
+      line-height: 1.1;
+      display: block;
+    }
+
+    .time-label {
+      font-size: 0.65rem;
+      font-weight: 700;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-top: 0.3rem;
+      display: block;
+    }
+
+    /* Minimalist Progress Bar */
+    .progress-wrap {
+      margin-bottom: 1.5rem;
+    }
+
+    .progress-bar-bg {
+      width: 100%;
+      height: 3px;
+      background: var(--line);
+      border-radius: 999px;
+      overflow: hidden;
+    }
+
+    .progress-bar-fill {
+      height: 100%;
+      width: 0%;
+      background: var(--primary);
+      border-radius: 999px;
+      transition: width 0.4s ease;
+    }
+
+    .map-box {
+      width: 100%;
+      height: 240px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      overflow: hidden;
+      margin-bottom: 1rem;
+    }
+
+    .map-box iframe {
+      width: 100%;
+      height: 100%;
+      border: 0;
+      display: block;
+    }
+
+    /* Smooth Rising 3x1 Image Tray */
+    .peek-tray {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0.5rem;
+      height: 32px;
+      position: relative;
+      clip-path: inset(-140px 0px 0px 0px); /* masks bottom, allows rising above */
+      margin-top: 0.25rem;
+    }
+
+    .grid-slot {
+      position: relative;
+      height: 100%;
+      cursor: pointer;
+    }
+
+    .grid-img-card {
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      height: 115px;
+      border-radius: 8px 8px 0 0;
+      overflow: hidden;
+      border: 1px solid var(--line);
+      border-bottom: none;
+      background: var(--bg-light);
+      transform: translate3d(0, 83px, 0); /* only top 32px visible */
+      transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.45s ease;
+      will-change: transform;
+      box-shadow: 0 -2px 6px rgba(0, 0, 0, 0.04);
+    }
+
+    .grid-slot:hover .grid-img-card {
+      transform: translate3d(0, 0, 0); /* smoothly slides up */
+      box-shadow: 0 -8px 24px rgba(21, 38, 56, 0.16);
+      z-index: 10;
+    }
+
+    .grid-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      pointer-events: none;
+      user-select: none;
+      transition: transform 0.45s ease;
+    }
+
+    .grid-slot:hover .grid-img {
+      transform: scale(1.02);
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <div class="logo-header">
+      <img src="https://erc.my.id/logo.svg" alt="ERC Logo" class="erc-logo">
+    </div>
+
+    <div class="countdown-grid">
+      <div class="time-card">
+        <span class="time-num" id="days">--</span>
+        <span class="time-label">Days</span>
+      </div>
+      <div class="time-card">
+        <span class="time-num" id="hours">--</span>
+        <span class="time-label">Hours</span>
+      </div>
+      <div class="time-card">
+        <span class="time-num" id="minutes">--</span>
+        <span class="time-label">Minutes</span>
+      </div>
+      <div class="time-card">
+        <span class="time-num" id="seconds">--</span>
+        <span class="time-label">Seconds</span>
+      </div>
+    </div>
+
+    <!-- Minimalist Progress Bar -->
+    <div class="progress-wrap">
+      <div class="progress-bar-bg">
+        <div class="progress-bar-fill" id="progress-fill"></div>
+      </div>
+    </div>
+
+    <div class="map-box">
+      <iframe 
+        src="https://maps.google.com/maps?q=MMFJ%2BJH8+Ciater%2C+South+Tangerang+City%2C+Banten&t=&z=16&ie=UTF8&iwloc=&output=embed"
+        loading="lazy" 
+        allowfullscreen 
+        referrerpolicy="no-referrer-when-downgrade"
+        title="Map">
+      </iframe>
+    </div>
+
+    <!-- 3x1 Peek-to-Rise Tray -->
+    <div class="peek-tray">
+      <div class="grid-slot">
+        <div class="grid-img-card">
+          <img src="WhatsApp Image 2026-08-13 at 14.51.08.jpeg" alt="Memory 1" class="grid-img" loading="lazy">
+        </div>
+      </div>
+      <div class="grid-slot">
+        <div class="grid-img-card">
+          <img src="WhatsApp Image 2026-08-13 at 14.51.08(1).jpeg" alt="Memory 2" class="grid-img" loading="lazy">
+        </div>
+      </div>
+      <div class="grid-slot">
+        <div class="grid-img-card">
+          <img src="WhatsApp Image 2026-08-13 at 14.51.09.jpeg" alt="Memory 3" class="grid-img" loading="lazy">
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const start = new Date('2026-08-09T00:00:00+07:00').getTime();
+    const target = new Date('2036-08-09T00:00:00+07:00').getTime();
+    const totalDuration = target - start;
+
+    const d = document.getElementById('days');
+    const h = document.getElementById('hours');
+    const m = document.getElementById('minutes');
+    const s = document.getElementById('seconds');
+    const pFill = document.getElementById('progress-fill');
+
+    // Audio Web API Ticking (Always On, auto-unlock on first user interaction)
+    let audioCtx = null;
+
+    function initAudio() {
+      if (!audioCtx) {
+        audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      }
+      if (audioCtx.state === 'suspended') {
+        audioCtx.resume();
+      }
+    }
+
+    ['click', 'touchstart', 'keydown', 'scroll', 'mousemove', 'pointerdown'].forEach(evt => {
+      window.addEventListener(evt, initAudio, { once: true });
+    });
+
+    function playTick() {
+      try {
+        if (!audioCtx) {
+          audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        }
+        if (audioCtx.state === 'suspended') {
+          audioCtx.resume();
+        }
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(880, audioCtx.currentTime);
+        osc.frequency.exponentialRampToValueAtTime(110, audioCtx.currentTime + 0.015);
+        gain.gain.setValueAtTime(0.08, audioCtx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.015);
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+        osc.start();
+        osc.stop(audioCtx.currentTime + 0.015);
+      } catch (e) {}
+    }
+
+    function tick() {
+      const now = Date.now();
+      const diff = target - now;
+      if (diff <= 0) {
+        d.textContent = h.textContent = m.textContent = s.textContent = '00';
+        pFill.style.width = '100%';
+        return;
+      }
+      d.textContent = String(Math.floor(diff / 86400000)).padStart(2, '0');
+      h.textContent = String(Math.floor((diff % 86400000) / 3600000)).padStart(2, '0');
+      m.textContent = String(Math.floor((diff % 3600000) / 60000)).padStart(2, '0');
+      s.textContent = String(Math.floor((diff % 60000) / 1000)).padStart(2, '0');
+
+      const elapsed = Math.max(0, now - start);
+      const pct = Math.min(100, (elapsed / totalDuration) * 100);
+      pFill.style.width = pct.toFixed(2) + '%';
+
+      playTick();
+    }
+
+    tick();
+    setInterval(tick, 1000);
+  </script>
+</body>
+</html>
