@@ -108,6 +108,34 @@
       flex-shrink: 0;
     }
 
+    .btn-group {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      flex-shrink: 0;
+    }
+
+    .speed-btn {
+      background: var(--bg-light);
+      border: 1px solid var(--line);
+      color: var(--accent);
+      padding: 0.45rem 0.6rem;
+      border-radius: 6px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      font-family: 'Roboto Mono', monospace;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      min-width: 38px;
+      text-align: center;
+    }
+
+    .speed-btn:hover, .speed-btn.active {
+      background: var(--accent);
+      color: #ffffff;
+      border-color: var(--accent);
+    }
+
     .sidebar-btn {
       background: var(--bg-light);
       border: 1px solid var(--line);
@@ -280,12 +308,15 @@
         <span class="video-counter" id="active-count">1 / 22</span>
       </div>
 
-      <button type="button" class="sidebar-btn" id="open-sidebar-btn" title="Open clips list">
-        <svg viewBox="0 0 24 24">
-          <path d="M4 10h12v2H4zm0-4h16v2H4zm0 8h8v2H4zm10 0v6l5-3z"/>
-        </svg>
-        <span>List</span>
-      </button>
+      <div class="btn-group">
+        <button type="button" class="speed-btn" id="speed-btn" title="Playback speed">1x</button>
+        <button type="button" class="sidebar-btn" id="open-sidebar-btn" title="Open clips list">
+          <svg viewBox="0 0 24 24">
+            <path d="M4 10h12v2H4zm0-4h16v2H4zm0 8h8v2H4zm10 0v6l5-3z"/>
+          </svg>
+          <span>List</span>
+        </button>
+      </div>
     </div>
   </div>
 
@@ -335,8 +366,29 @@
     const backdrop = document.getElementById('backdrop');
     const openBtn = document.getElementById('open-sidebar-btn');
     const closeBtn = document.getElementById('close-sidebar-btn');
+    const speedBtn = document.getElementById('speed-btn');
 
     let currentIndex = 0;
+
+    // Speed Control (1x -> 1.5x -> 2x -> 1x)
+    const speeds = [1, 1.5, 2];
+    let speedIndex = 0;
+
+    speedBtn.addEventListener('click', () => {
+      speedIndex = (speedIndex + 1) % speeds.length;
+      const rate = speeds[speedIndex];
+      player.playbackRate = rate;
+      speedBtn.textContent = `${rate}x`;
+      if (rate > 1) {
+        speedBtn.classList.add('active');
+      } else {
+        speedBtn.classList.remove('active');
+      }
+    });
+
+    player.addEventListener('loadedmetadata', () => {
+      player.playbackRate = speeds[speedIndex];
+    });
 
     function openSidebar() {
       sidebar.classList.add('open');
@@ -382,6 +434,7 @@
       const vid = videos[currentIndex];
       source.src = encodeURIComponent(vid);
       player.load();
+      player.playbackRate = speeds[speedIndex];
       player.play().catch(() => {});
       activeName.textContent = `Clip #${currentIndex + 1}`;
       activeCount.textContent = `${currentIndex + 1} / ${videos.length}`;

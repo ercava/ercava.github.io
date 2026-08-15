@@ -86,7 +86,7 @@
     .loading-overlay {
       position: absolute;
       inset: 0;
-      background: rgba(0, 0, 0, 0.7);
+      background: rgba(0, 0, 0, 0.75);
       display: none;
       flex-direction: column;
       align-items: center;
@@ -147,6 +147,34 @@
       flex-shrink: 0;
     }
 
+    .btn-group {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      flex-shrink: 0;
+    }
+
+    .speed-btn {
+      background: var(--bg-light);
+      border: 1px solid var(--line);
+      color: var(--accent);
+      padding: 0.45rem 0.6rem;
+      border-radius: 6px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      font-family: 'Roboto Mono', monospace;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      min-width: 38px;
+      text-align: center;
+    }
+
+    .speed-btn:hover, .speed-btn.active {
+      background: var(--accent);
+      color: #ffffff;
+      border-color: var(--accent);
+    }
+
     .sidebar-btn {
       background: var(--bg-light);
       border: 1px solid var(--line);
@@ -161,7 +189,6 @@
       align-items: center;
       gap: 0.35rem;
       transition: all 0.2s ease;
-      flex-shrink: 0;
     }
 
     .sidebar-btn:hover, .sidebar-btn.active {
@@ -313,23 +340,26 @@
         </video>
         <div class="loading-overlay" id="loading-overlay">
           <div class="spinner"></div>
-          <span id="loading-text">Loading parts...</span>
+          <span id="loading-text">Recombining parts...</span>
         </div>
       </div>
 
-      <!-- Minimal Bottom Bar -->
+      <!-- Minimal Bottom Bar with Speed & List Controls -->
       <div class="video-bar">
         <div class="video-info">
           <span class="active-title" id="active-name">0812 - comp.mp4</span>
           <span class="video-counter" id="active-count">1 / 5</span>
         </div>
 
-        <button type="button" class="sidebar-btn" id="toggle-sidebar-btn" title="Toggle cuts list">
-          <svg viewBox="0 0 24 24">
-            <path d="M4 10h12v2H4zm0-4h16v2H4zm0 8h8v2H4zm10 0v6l5-3z"/>
-          </svg>
-          <span>List</span>
-        </button>
+        <div class="btn-group">
+          <button type="button" class="speed-btn" id="speed-btn" title="Playback speed">1x</button>
+          <button type="button" class="sidebar-btn" id="toggle-sidebar-btn" title="Toggle cuts list">
+            <svg viewBox="0 0 24 24">
+              <path d="M4 10h12v2H4zm0-4h16v2H4zm0 8h8v2H4zm10 0v6l5-3z"/>
+            </svg>
+            <span>List</span>
+          </button>
+        </div>
       </div>
     </div>
 
@@ -365,10 +395,31 @@
     const closeBtn = document.getElementById('close-sidebar-btn');
     const loadingOverlay = document.getElementById('loading-overlay');
     const loadingText = document.getElementById('loading-text');
+    const speedBtn = document.getElementById('speed-btn');
 
     let currentIndex = 0;
     let isSidebarOpen = false;
     let currentBlobUrl = null;
+
+    // Speed Control (1x -> 1.5x -> 2x -> 1x)
+    const speeds = [1, 1.5, 2];
+    let speedIndex = 0;
+
+    speedBtn.addEventListener('click', () => {
+      speedIndex = (speedIndex + 1) % speeds.length;
+      const rate = speeds[speedIndex];
+      player.playbackRate = rate;
+      speedBtn.textContent = `${rate}x`;
+      if (rate > 1) {
+        speedBtn.classList.add('active');
+      } else {
+        speedBtn.classList.remove('active');
+      }
+    });
+
+    player.addEventListener('loadedmetadata', () => {
+      player.playbackRate = speeds[speedIndex];
+    });
 
     function toggleSidebar() {
       isSidebarOpen = !isSidebarOpen;
@@ -425,6 +476,7 @@
         loadingOverlay.classList.remove('show');
         source.src = encodeURIComponent(vid.name);
         player.load();
+        player.playbackRate = speeds[speedIndex];
         player.play().catch(() => {});
       } else {
         // Parallel fetch and recombine parts on-the-fly in browser
@@ -439,7 +491,7 @@
             if (!res.ok) throw new Error(`HTTP ${res.status} on ${partFile}`);
             const buf = await res.arrayBuffer();
             loadedCount++;
-            loadingText.textContent = `Recombining ${loadedCount}/${vid.parts} parts (${Math.round((loadedCount / vid.parts) * 100)}%)...`;
+            loadingText.textContent = `Recombining ${loadedCount}/${vid.parts} (${Math.round((loadedCount / vid.parts) * 100)}%)...`;
             return { index: p, buffer: buf };
           });
 
@@ -451,6 +503,7 @@
           currentBlobUrl = URL.createObjectURL(blob);
           source.src = currentBlobUrl;
           player.load();
+          player.playbackRate = speeds[speedIndex];
           player.play().catch(() => {});
         } catch (e) {
           console.error("Recombination failed:", e);
