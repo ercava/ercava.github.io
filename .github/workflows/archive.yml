@@ -29,10 +29,9 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
-
-      - name: Create Archive Snapshot
-        run: node archive.js
+          node-version: '24'
+      - name: Pull latest changes
+        run: git pull origin ${{ github.ref_name }}
 
       - name: Commit and push updated archive
         uses: stefanzweifel/git-auto-commit-action@v5
