@@ -1,0 +1,1211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ErcLegends Video Directory</title>
+  <link rel="icon" type="image/x-icon" href="https://ercava.github.io/logo/favicon.ico" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #26568c;
+      --accent: #152638;
+      --bg: #ffffff;
+      --bg-light: #f8fafc;
+      --card-bg: #ffffff;
+      --text: #1f2937;
+      --muted: #64748b;
+      --line: #e2e8f0;
+      --fav: #e11d48;
+      --hover: #f1f5f9;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Montserrat', system-ui, -apple-system, sans-serif;
+      background: var(--bg);
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 56 28' width='56' height='28'%3E%3Cpath fill='%23f0f4f8' fill-opacity='0.8' d='M56 26v2h-7.75c2.3-1.27 4.94-2 7.75-2zm-26 2a2 2 0 1 0-4 0h-4.09A25.98 25.98 0 0 0 0 16v-2c.67 0 1.34.02 2 .07V14a2 2 0 0 0-2-2v-2a4 4 0 0 1 3.98 3.6 28.09 28.09 0 0 1 2.8-3.86A8 8 0 0 0 0 6V4a9.99 9.99 0 0 1 8.17 4.23c.94-.95 1.96-1.83 3.03-2.63A13.98 13.98 0 0 0 0 0h7.75c2 1.1 3.73 2.63 5.1 4.45 1.12-.72 2.3-1.37 3.53-1.93A20.1 20.1 0 0 0 14.28 0h2.7c.45.56.88 1.14 1.29 1.74 1.3-.48 2.63-.87 4-1.15-.11-.2-.23-.4-.36-.59H26v.07a28.4 28.4 0 0 1 4 0V0h4.09l-.37.59c1.38.28 2.72.67 4.01 1.15.4-.6.84-1.18 1.3-1.74h2.69a20.1 20.1 0 0 0-2.1 2.52c1.23.56 2.41 1.2 3.54 1.93A16.08 16.08 0 0 1 48.25 0H56c-4.58 0-8.65 2.2-11.2 5.6 1.07.8 2.09 1.68 3.03 2.63A9.99 9.99 0 0 1 56 4v2a8 8 0 0 0-6.77 3.74c1.03 1.2 1.97 2.5 2.79 3.86A4 4 0 0 1 56 10v2a2 2 0 0 0-2 2.07 28.4 28.4 0 0 1 2-.07v2c-9.2 0-17.3 4.78-21.91 12H30zM7.75 28H0v-2c2.81 0 5.46.73 7.75 2zM56 20v2c-5.6 0-10.65 2.3-14.28 6h-2.7c4.04-4.89 10.15-8 16.98-8zm-39.03 8h-2.69C10.65 24.3 5.6 22 0 22v-2c6.83 0 12.94 3.11 16.97 8zm15.01-.4a28.09 28.09 0 0 1 2.8-3.86 8 8 0 0 0-13.55 0c1.03 1.2 1.97 2.5 2.79 3.86a4 4 0 0 1 7.96 0zm14.29-11.86c1.3-.48 2.63-.87 4-1.15a25.99 25.99 0 0 0-44.55 0c1.38.28 2.72.67 4.01 1.15a21.98 21.98 0 0 1 36.54 0zm-5.43 2.71c1.13-.72 2.3-1.37 3.54-1.93a19.98 19.98 0 0 0-32.76 0c1.23.56 2.41 1.2 3.54 1.93a15.98 15.98 0 0 1 25.68 0zm-4.67 3.78c.94-.95 1.96-1.83 3.03-2.63a13.98 13.98 0 0 0-22.4 0c1.07.8 2.09 1.68 3.03 2.63a9.99 9.99 0 0 1 16.34 0z'%3E%3C/path%3E%3C/svg%3E");
+      color: var(--text);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    header {
+      background: #ffffff;
+      border-bottom: 1px solid var(--line);
+      padding: 0.85rem 1.5rem;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    .header-inner {
+      max-width: 1400px;
+      margin: 0 auto;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      text-decoration: none;
+      color: var(--accent);
+    }
+    .brand img { height: 32px; }
+    .brand h1 { font-size: 1.15rem; font-weight: 700; letter-spacing: -0.02em; }
+
+    .toolbar {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+    }
+    .search-box {
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+    .search-box input {
+      padding: 0.5rem 1rem 0.5rem 2.2rem;
+      font-family: inherit;
+      font-size: 0.85rem;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      width: 240px;
+      outline: none;
+      transition: all 0.2s;
+    }
+    .search-box input:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(38, 86, 140, 0.15);
+      width: 280px;
+    }
+    .search-icon {
+      position: absolute;
+      left: 0.75rem;
+      width: 14px;
+      height: 14px;
+      fill: var(--muted);
+    }
+
+    .btn-group {
+      display: inline-flex;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      overflow: hidden;
+      background: var(--bg);
+    }
+    .btn-toggle {
+      border: none;
+      background: transparent;
+      padding: 0.5rem 0.75rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 0.35rem;
+      font-size: 0.8rem;
+      font-family: inherit;
+      color: var(--muted);
+      transition: all 0.15s;
+    }
+    .btn-toggle.active {
+      background: var(--primary);
+      color: #fff;
+    }
+    .btn-toggle svg { width: 14px; height: 14px; fill: currentColor; }
+
+    .btn-filter {
+      border: 1px solid var(--line);
+      background: #fff;
+      padding: 0.5rem 0.85rem;
+      border-radius: 8px;
+      font-size: 0.8rem;
+      font-family: inherit;
+      color: var(--text);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+    .btn-filter.active {
+      background: #fee2e2;
+      border-color: #fca5a5;
+      color: var(--fav);
+      font-weight: 600;
+    }
+
+    main {
+      max-width: 1400px;
+      width: 100%;
+      margin: 1.25rem auto;
+      padding: 0 1.5rem 3rem;
+      flex: 1;
+    }
+
+    .meta-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1.2rem;
+      font-size: 0.85rem;
+      color: var(--muted);
+    }
+
+    /* GALLERY GRID */
+    .grid-view {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      gap: 1rem;
+    }
+    .gallery-item {
+      position: relative;
+      background: #0f172a;
+      border-radius: 8px;
+      overflow: hidden;
+      aspect-ratio: 16/9;
+      cursor: pointer;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.06);
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .gallery-item:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 18px rgba(0,0,0,0.15);
+    }
+    .gallery-thumb {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: opacity 0.2s;
+    }
+    .gallery-video-preview {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: none;
+      z-index: 1;
+    }
+    .gallery-item.playing .gallery-video-preview { display: block; }
+    .gallery-item.playing .gallery-thumb { opacity: 0; }
+
+    .gallery-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.2) 50%, rgba(0,0,0,0) 100%);
+      opacity: 0;
+      transition: opacity 0.2s;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 0.75rem;
+      pointer-events: none;
+      z-index: 2;
+    }
+    .gallery-item:hover .gallery-overlay { opacity: 1; }
+    .gallery-title {
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: #ffffff;
+      line-height: 1.25;
+      text-shadow: 0 1px 2px rgba(0,0,0,0.8);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .gallery-sub {
+      font-family: 'Roboto Mono', monospace;
+      font-size: 0.65rem;
+      color: #94a3b8;
+      margin-top: 0.2rem;
+    }
+
+    .gallery-fav-badge {
+      position: absolute;
+      top: 6px;
+      right: 6px;
+      background: rgba(0,0,0,0.6);
+      color: #ffffff;
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.75rem;
+      z-index: 3;
+    }
+    .gallery-fav-badge.active {
+      display: flex;
+      color: var(--fav);
+      background: #ffffff;
+    }
+
+    /* DETAILS VIEW */
+    .details-view {
+      background: #ffffff;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      overflow: hidden;
+    }
+    .table-explorer {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.85rem;
+      text-align: left;
+    }
+    .table-explorer th {
+      background: #f8fafc;
+      padding: 0.75rem 1rem;
+      font-weight: 600;
+      color: var(--muted);
+      border-bottom: 1px solid var(--line);
+      user-select: none;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: background 0.15s, color 0.15s;
+    }
+    .table-explorer th:hover {
+      background: #f1f5f9;
+      color: var(--primary);
+    }
+    .table-explorer th.sort-active {
+      color: var(--primary);
+      background: #eff6ff;
+    }
+    .sort-arrow {
+      display: inline-block;
+      margin-left: 0.25rem;
+      font-size: 0.75rem;
+    }
+    .table-explorer td {
+      padding: 0.75rem 1rem;
+      border-bottom: 1px solid var(--line);
+      vertical-align: middle;
+    }
+    .table-explorer tr:hover td { background: #f8fafc; }
+    .col-name {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      font-weight: 500;
+      color: var(--accent);
+      cursor: pointer;
+    }
+    .col-name svg { flex-shrink: 0; width: 18px; height: 18px; fill: var(--primary); }
+    .col-mono {
+      font-family: 'Roboto Mono', monospace;
+      font-size: 0.78rem;
+      color: var(--muted);
+      white-space: nowrap;
+    }
+    .cell-fav {
+      width: 32px;
+      text-align: center;
+      cursor: pointer;
+      color: #cbd5e1;
+    }
+    .cell-fav.active { color: var(--fav); }
+
+    /* CONTEXT MENU */
+    .context-menu {
+      position: fixed;
+      background: #ffffff;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.12);
+      z-index: 10000;
+      padding: 0.35rem 0;
+      min-width: 170px;
+      display: none;
+      font-size: 0.82rem;
+    }
+    .context-menu-item {
+      padding: 0.5rem 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      cursor: pointer;
+      color: var(--text);
+      text-decoration: none;
+      transition: background 0.15s;
+    }
+    .context-menu-item:hover {
+      background: var(--hover);
+      color: var(--primary);
+    }
+    .context-menu-divider {
+      height: 1px;
+      background: var(--line);
+      margin: 0.3rem 0;
+    }
+
+    /* MODALS */
+    .modal {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.92);
+      backdrop-filter: blur(8px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 2000;
+      padding: 1rem;
+    }
+    .modal.open { display: flex; }
+    
+    /* 1. YOUTUBE VIDEO CONTAINER */
+    .yt-player-container {
+      position: relative;
+      width: 100%;
+      max-width: 1000px;
+      background: #000;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+      aspect-ratio: 16/9;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .yt-player-container video {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+    .yt-ui-overlay {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      opacity: 0;
+      transition: opacity 0.25s ease;
+      background: linear-gradient(to bottom, rgba(0,0,0,0.7) 0%, transparent 20%, transparent 75%, rgba(0,0,0,0.85) 100%);
+      pointer-events: none;
+    }
+    .yt-player-container.show-ui .yt-ui-overlay {
+      opacity: 1;
+      pointer-events: auto;
+    }
+    .yt-top-bar {
+      padding: 1rem 1.25rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      color: #fff;
+    }
+    .yt-title {
+      font-size: 1rem;
+      font-weight: 600;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .yt-close-btn {
+      background: none;
+      border: none;
+      color: #fff;
+      font-size: 1.5rem;
+      cursor: pointer;
+      padding: 0 0.5rem;
+      line-height: 1;
+    }
+    .yt-bottom-bar {
+      padding: 0.75rem 1.25rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+    .yt-progress-container {
+      width: 100%;
+      height: 5px;
+      background: rgba(255,255,255,0.25);
+      border-radius: 3px;
+      cursor: pointer;
+      position: relative;
+      transition: height 0.15s;
+    }
+    .yt-progress-container:hover { height: 8px; }
+    .yt-progress-bar {
+      height: 100%;
+      background: #e11d48;
+      border-radius: 3px;
+      width: 0%;
+    }
+    .yt-controls {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      color: #fff;
+    }
+    .yt-controls-left, .yt-controls-right {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+    .yt-btn {
+      background: none;
+      border: none;
+      color: #fff;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0.25rem;
+    }
+    .yt-btn svg { width: 20px; height: 20px; fill: currentColor; }
+    .yt-time {
+      font-family: 'Roboto Mono', monospace;
+      font-size: 0.75rem;
+      color: #e2e8f0;
+    }
+
+    /* 2. LIGHTBOX PHOTO VIEWER CONTAINER */
+    .photo-viewer-container {
+      position: relative;
+      max-width: 95vw;
+      max-height: 92vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+    .photo-viewer-header {
+      position: absolute;
+      top: -45px;
+      left: 0;
+      right: 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      color: #ffffff;
+      padding: 0 0.5rem;
+    }
+    .photo-title {
+      font-size: 0.95rem;
+      font-weight: 600;
+      text-shadow: 0 1px 3px rgba(0,0,0,0.8);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 70vw;
+    }
+    .photo-actions {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+    .photo-btn {
+      background: rgba(255,255,255,0.15);
+      border: 1px solid rgba(255,255,255,0.25);
+      color: #ffffff;
+      cursor: pointer;
+      border-radius: 6px;
+      padding: 0.35rem 0.65rem;
+      font-size: 0.78rem;
+      font-family: inherit;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      text-decoration: none;
+      backdrop-filter: blur(4px);
+      transition: background 0.15s;
+    }
+    .photo-btn:hover { background: rgba(255,255,255,0.3); }
+    .photo-btn svg { width: 14px; height: 14px; fill: currentColor; }
+
+    .photo-viewport {
+      position: relative;
+      overflow: hidden;
+      border-radius: 8px;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.6);
+      background: rgba(15, 23, 42, 0.5);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      max-width: 90vw;
+      max-height: 82vh;
+    }
+    .photo-viewport img {
+      max-width: 90vw;
+      max-height: 82vh;
+      width: auto;
+      height: auto;
+      object-fit: contain;
+      user-select: none;
+      transition: transform 0.2s ease-out;
+      transform-origin: center center;
+    }
+
+    .photo-toolbar-bottom {
+      position: absolute;
+      bottom: 15px;
+      background: rgba(15, 23, 42, 0.75);
+      backdrop-filter: blur(8px);
+      border: 1px solid rgba(255,255,255,0.2);
+      border-radius: 999px;
+      padding: 0.35rem 0.85rem;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      color: #fff;
+    }
+    .photo-tool-btn {
+      background: none;
+      border: none;
+      color: #fff;
+      cursor: pointer;
+      font-size: 0.85rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0.2rem;
+      transition: color 0.15s;
+    }
+    .photo-tool-btn:hover { color: var(--primary); }
+    .photo-tool-btn svg { width: 16px; height: 16px; fill: currentColor; }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="header-inner">
+    <a href="../index.html" class="brand">
+      <img src="logo.svg" alt="Logo" onerror="this.src='https://ercava.github.io/logo.svg'">
+      <h1>erclegends <span style="font-weight: 400; color: var(--muted); font-size: 0.95rem;">/ videos</span></h1>
+    </a>
+
+    <div class="toolbar">
+      <div class="search-box">
+        <svg class="search-icon" viewBox="0 0 24 24"><path d="M10 18a7.952 7.952 0 0 0 4.897-1.688l4.396 4.396 1.414-1.414-4.396-4.396A7.952 7.952 0 0 0 18 10c0-4.411-3.589-8-8-8s-8 3.589-8 8 3.589 8 8 8zm0-14c3.309 0 6 2.691 6 6s-2.691 6-6 6-6-2.691-6-6 2.691-6 6-6z"/></svg>
+        <input type="text" id="searchInput" placeholder="Search files or content..." />
+      </div>
+
+      <button id="favFilterBtn" class="btn-filter" title="Show only favorites">
+        <svg style="width:14px;height:14px;fill:currentColor" viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+        Favorites (<span id="favCount">0</span>)
+      </button>
+
+      <div class="btn-group">
+        <button id="thumbViewBtn" class="btn-toggle active" title="Gallery Grid">
+          <svg viewBox="0 0 24 24"><path d="M4 4h4v4H4zm6 0h4v4h-4zm6 0h4v4h-4zM4 10h4v4H4zm6 0h4v4h-4zm6 0h4v4h-4zM4 16h4v4H4zm6 0h4v4h-4zm6 0h4v4h-4z"/></svg>
+          Gallery
+        </button>
+        <button id="detailViewBtn" class="btn-toggle" title="Details / File Explorer">
+          <svg viewBox="0 0 24 24"><path d="M4 6h16v2H4zm0 5h16v2H4zm0 5h16v2H4z"/></svg>
+          Details
+        </button>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main>
+  <div class="meta-bar">
+    <div id="statusCount">Loading files...</div>
+    <div id="sortSelectWrap">
+      <label for="sortSelect">Sort: </label>
+      <select id="sortSelect" style="padding: 0.25rem 0.5rem; border-radius: 6px; border: 1px solid var(--line); font-family: inherit;">
+        <option value="none">Default</option>
+        <option value="name_asc">Name (A-Z)</option>
+        <option value="name_desc">Name (Z-A)</option>
+        <option value="size_desc">Size (Large to Small)</option>
+        <option value="size_asc">Size (Small to Large)</option>
+        <option value="date_desc">Date (Newest)</option>
+        <option value="date_asc">Date (Oldest)</option>
+      </select>
+    </div>
+  </div>
+
+  <!-- GALLERY GRID -->
+  <div id="containerGrid" class="grid-view"></div>
+
+  <!-- DETAILS EXPLORER -->
+  <div id="containerDetails" class="details-view" style="display:none;">
+    <table class="table-explorer">
+      <thead>
+        <tr>
+          <th style="width: 40px; text-align: center;">★</th>
+          <th id="thName" data-sort="name">Name<span id="iconName" class="sort-arrow"></span></th>
+          <th id="thDate" data-sort="date" style="width: 170px;">Date Modified<span id="iconDate" class="sort-arrow"></span></th>
+          <th id="thSize" data-sort="size" style="width: 120px;">Size<span id="iconSize" class="sort-arrow"></span></th>
+          <th style="width: 110px; text-align: right;">Action</th>
+        </tr>
+      </thead>
+      <tbody id="tableBody"></tbody>
+    </table>
+  </div>
+</main>
+
+<!-- Context Menu -->
+<div id="contextMenu" class="context-menu">
+  <div class="context-menu-item" id="ctxPlay">
+    <svg style="width:14px;height:14px;fill:currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg> Open / View
+  </div>
+  <div class="context-menu-item" id="ctxFav">
+    <svg style="width:14px;height:14px;fill:currentColor" viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg> Favorite
+  </div>
+  <div class="context-menu-divider"></div>
+  <div class="context-menu-item" id="ctxDownload">
+    <svg style="width:14px;height:14px;fill:currentColor" viewBox="0 0 24 24"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg> Download
+  </div>
+</div>
+
+<!-- Modal Container -->
+<div id="previewModal" class="modal">
+  <!-- 1. YouTube-Style Video Player -->
+  <div class="yt-player-container show-ui" id="ytContainer" style="display:none;">
+    <div id="ytMediaArea" style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;"></div>
+    
+    <div class="yt-ui-overlay" id="ytOverlay">
+      <div class="yt-top-bar">
+        <div class="yt-title" id="ytTitle">Video Title</div>
+        <button class="yt-close-btn" onclick="closeModal()">&times;</button>
+      </div>
+
+      <div class="yt-bottom-bar">
+        <div class="yt-progress-container" id="ytProgress">
+          <div class="yt-progress-bar" id="ytProgressBar"></div>
+        </div>
+        <div class="yt-controls">
+          <div class="yt-controls-left">
+            <button class="yt-btn" id="ytPlayPauseBtn">
+              <svg id="ytPlayIcon" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+            </button>
+            <button class="yt-btn" id="ytMuteBtn">
+              <svg viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg>
+            </button>
+            <span class="yt-time" id="ytTime">0:00 / 0:00</span>
+          </div>
+          <div class="yt-controls-right">
+            <button class="yt-btn" id="ytDownloadBtn" title="Download">
+              <svg viewBox="0 0 24 24"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg>
+            </button>
+            <button class="yt-btn" id="ytFullscreenBtn" title="Fullscreen">
+              <svg viewBox="0 0 24 24"><path d="M7 14H5v5h5v-2H7v-3zm-2-4h2V7h3V5H5v5zm12 7h-3v2h5v-5h-2v3zM14 5v2h3v3h2V5h-5z"/></svg>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 2. Lightbox Photo Viewer -->
+  <div class="photo-viewer-container" id="photoContainer" style="display:none;">
+    <div class="photo-viewer-header">
+      <div class="photo-title" id="photoTitle">Photo Title</div>
+      <div class="photo-actions">
+        <button class="photo-btn" id="photoDownloadBtn">
+          <svg viewBox="0 0 24 24"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg> Download
+        </button>
+        <button class="photo-btn" onclick="closeModal()" style="font-size:1.1rem; padding: 0.2rem 0.5rem;">&times;</button>
+      </div>
+    </div>
+
+    <div class="photo-viewport">
+      <img id="photoImg" src="" alt="" />
+      
+      <div class="photo-toolbar-bottom">
+        <button class="photo-tool-btn" id="photoZoomOut" title="Zoom Out">
+          <svg viewBox="0 0 24 24"><path d="M19 13H5v-2h14v2z"/></svg>
+        </button>
+        <span id="photoZoomLevel" style="font-family:'Roboto Mono',monospace;font-size:0.75rem;">100%</span>
+        <button class="photo-tool-btn" id="photoZoomIn" title="Zoom In">
+          <svg viewBox="0 0 24 24"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
+        </button>
+        <div style="width:1px;height:14px;background:rgba(255,255,255,0.3);"></div>
+        <button class="photo-tool-btn" id="photoRotate" title="Rotate">
+          <svg viewBox="0 0 24 24"><path d="M7.11 8.53L5.7 7.11C4.8 8.27 4.24 9.61 4.07 11h2.02c.14-.87.49-1.72 1.02-2.47zM6.09 13H4.07c.17 1.39.72 2.73 1.62 3.89l1.41-1.42c-.52-.75-.88-1.6-1.01-2.47zm1.01 5.32c1.16.9 2.51 1.44 3.9 1.61V17.9c-.87-.15-1.71-.49-2.46-1.03L7.1 18.32zM13 4.07V1L8.45 5.55 13 10V6.09c3.37 0 6.09 2.72 6.09 6.09s-2.72 6.09-6.09 6.09v2c4.48 0 8.09-3.61 8.09-8.09S17.48 4.07 13 4.07z"/></svg>
+        </button>
+        <button class="photo-tool-btn" id="photoReset" title="Reset View">
+          <svg viewBox="0 0 24 24"><path d="M12 5V1L7 6l5 5V7c3.31 0 6 2.69 6 6s-2.69 6-6 6-6-2.69-6-6H4c0 4.42 3.58 8 8 8s8-3.58 8-8-3.58-8-8-8z"/></svg>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  let files = [];
+  let favorites = new Set(JSON.parse(localStorage.getItem('erc_fav_videos') || '[]'));
+  let activeView = 'grid';
+  let onlyFav = false;
+  let contextTarget = null;
+  let currentPreviewFile = null;
+  let activeVideoEl = null;
+  let uiTimeout = null;
+
+  // Photo viewer state
+  let currentZoom = 1;
+  let currentRotation = 0;
+
+  // Blob cache for split parts
+  const blobUrlCache = new Map();
+
+  function formatBytes(bytes) {
+    if (bytes === 0) return '0 B';
+    const k = 1024;
+    const sizes = ['B', 'KB', 'MB', 'GB'];
+    const i = Math.floor(Math.log(bytes) / Math.log(k));
+    return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+  }
+
+  function formatTime(seconds) {
+    if (isNaN(seconds)) return '0:00';
+    const m = Math.floor(seconds / 60);
+    const s = Math.floor(seconds % 60);
+    return `${m}:${s < 10 ? '0' : ''}${s}`;
+  }
+
+  function saveFavorites() {
+    localStorage.setItem('erc_fav_videos', JSON.stringify([...favorites]));
+    document.getElementById('favCount').textContent = favorites.size;
+  }
+
+  function toggleFav(name, e) {
+    if (e) e.stopPropagation();
+    if (favorites.has(name)) {
+      favorites.delete(name);
+    } else {
+      favorites.add(name);
+    }
+    saveFavorites();
+    render();
+  }
+
+  function getThumbUrl(fileName) {
+    const base = fileName.substring(0, fileName.lastIndexOf('.')) || fileName;
+    return 'thumbs/' + encodeURIComponent(base + '.webp');
+  }
+
+  // Seamless Stitcher for split files (MSE / Blob)
+  async function getMediaSourceUrl(file) {
+    if (!file.isSplit) {
+      return 'videos/' + encodeURIComponent(file.name);
+    }
+    if (blobUrlCache.has(file.name)) {
+      return blobUrlCache.get(file.name);
+    }
+
+    // Fetch all parts and stitch into a single Blob
+    const partBuffers = await Promise.all(
+      file.chunks.map(chunkName =>
+        fetch('videos/' + encodeURIComponent(chunkName)).then(r => r.arrayBuffer())
+      )
+    );
+    const mime = file.name.endsWith('.mp4') ? 'video/mp4' : (file.name.endsWith('.webm') ? 'video/webm' : 'video/quicktime');
+    const stitchedBlob = new Blob(partBuffers, { type: mime });
+    const blobUrl = URL.createObjectURL(stitchedBlob);
+    blobUrlCache.set(file.name, blobUrl);
+    return blobUrl;
+  }
+
+  // Download stitched file or regular file
+  async function triggerDownload(file) {
+    if (!file) return;
+    if (file.isSplit) {
+      const url = await getMediaSourceUrl(file);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = file.name;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+    } else {
+      const a = document.createElement('a');
+      a.href = 'videos/' + encodeURIComponent(file.name);
+      a.download = file.name;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+    }
+  }
+
+  // Hover video stream
+  async function handleTileEnter(el, file) {
+    const v = el.querySelector('video');
+    if (!v) return;
+    el.classList.add('playing');
+    if (!v.src) {
+      v.src = await getMediaSourceUrl(file);
+    }
+    v.play().catch(() => {});
+  }
+
+  function handleTileLeave(el) {
+    const v = el.querySelector('video');
+    if (!v) return;
+    el.classList.remove('playing');
+    v.pause();
+    v.currentTime = 0;
+  }
+
+  // Context Menu
+  function showContextMenu(e, file) {
+    e.preventDefault();
+    contextTarget = file;
+    const menu = document.getElementById('contextMenu');
+    const isFav = favorites.has(file.name);
+    document.getElementById('ctxFav').innerHTML = `
+      <svg style="width:14px;height:14px;fill:currentColor" viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg> 
+      ${isFav ? 'Remove Favorite' : 'Add to Favorite'}
+    `;
+
+    menu.style.top = `${Math.min(e.clientY, window.innerHeight - 150)}px`;
+    menu.style.left = `${Math.min(e.clientX, window.innerWidth - 180)}px`;
+    menu.style.display = 'block';
+  }
+
+  function hideContextMenu() {
+    document.getElementById('contextMenu').style.display = 'none';
+  }
+
+  // Master Open Preview router (Video vs Photo vs Audio)
+  async function openPreview(file) {
+    currentPreviewFile = file;
+    const ext = file.name.split('.').pop().toLowerCase();
+    const isPhoto = ['jpg', 'jpeg', 'png', 'webp', 'gif'].includes(ext);
+
+    document.getElementById('ytContainer').style.display = 'none';
+    document.getElementById('photoContainer').style.display = 'none';
+    document.getElementById('ytMediaArea').innerHTML = '';
+    activeVideoEl = null;
+
+    if (isPhoto) {
+      document.getElementById('photoTitle').textContent = file.name;
+      const pImg = document.getElementById('photoImg');
+      pImg.src = 'videos/' + encodeURIComponent(file.name);
+      currentZoom = 1;
+      currentRotation = 0;
+      updatePhotoTransform();
+      document.getElementById('photoContainer').style.display = 'flex';
+    } else {
+      document.getElementById('ytTitle').textContent = file.name;
+      const mediaArea = document.getElementById('ytMediaArea');
+      const mediaUrl = await getMediaSourceUrl(file);
+
+      if (['mp4', 'webm', 'mov', 'mkv', 'mts'].includes(ext)) {
+        const vid = document.createElement('video');
+        vid.src = mediaUrl;
+        vid.autoplay = true;
+        mediaArea.appendChild(vid);
+        activeVideoEl = vid;
+
+        vid.addEventListener('timeupdate', () => {
+          const pct = (vid.currentTime / vid.duration) * 100;
+          document.getElementById('ytProgressBar').style.width = `${pct}%`;
+          document.getElementById('ytTime').textContent = `${formatTime(vid.currentTime)} / ${formatTime(vid.duration)}`;
+        });
+        vid.addEventListener('play', () => {
+          document.getElementById('ytPlayIcon').innerHTML = '<path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>';
+        });
+        vid.addEventListener('pause', () => {
+          document.getElementById('ytPlayIcon').innerHTML = '<path d="M8 5v14l11-7z"/>';
+        });
+      } else if (['mp3', 'wav', 'ogg'].includes(ext)) {
+        const aud = document.createElement('audio');
+        aud.src = mediaUrl;
+        aud.autoplay = true;
+        mediaArea.appendChild(aud);
+        activeVideoEl = aud;
+      }
+      document.getElementById('ytContainer').style.display = 'flex';
+      resetUiTimer();
+    }
+
+    document.getElementById('previewModal').classList.add('open');
+  }
+
+  function closeModal() {
+    document.getElementById('previewModal').classList.remove('open');
+    document.getElementById('ytMediaArea').innerHTML = '';
+    document.getElementById('photoImg').src = '';
+    activeVideoEl = null;
+    currentPreviewFile = null;
+  }
+
+  // Photo viewer controls
+  function updatePhotoTransform() {
+    const pImg = document.getElementById('photoImg');
+    pImg.style.transform = `scale(${currentZoom}) rotate(${currentRotation}deg)`;
+    document.getElementById('photoZoomLevel').textContent = `${Math.round(currentZoom * 100)}%`;
+  }
+
+  document.getElementById('photoZoomIn').addEventListener('click', () => {
+    currentZoom = Math.min(currentZoom + 0.25, 4);
+    updatePhotoTransform();
+  });
+  document.getElementById('photoZoomOut').addEventListener('click', () => {
+    currentZoom = Math.max(currentZoom - 0.25, 0.5);
+    updatePhotoTransform();
+  });
+  document.getElementById('photoRotate').addEventListener('click', () => {
+    currentRotation = (currentRotation + 90) % 360;
+    updatePhotoTransform();
+  });
+  document.getElementById('photoReset').addEventListener('click', () => {
+    currentZoom = 1;
+    currentRotation = 0;
+    updatePhotoTransform();
+  });
+
+  // YouTube Autohide UI timer
+  function resetUiTimer() {
+    const container = document.getElementById('ytContainer');
+    container.classList.add('show-ui');
+    clearTimeout(uiTimeout);
+    uiTimeout = setTimeout(() => {
+      if (activeVideoEl && !activeVideoEl.paused) {
+        container.classList.remove('show-ui');
+      }
+    }, 2500);
+  }
+
+  // Update Table Header Sort Indicators (Clean: NO ↕ when unapplied)
+  function updateTableHeaders(sortVal) {
+    const thName = document.getElementById('thName');
+    const thDate = document.getElementById('thDate');
+    const thSize = document.getElementById('thSize');
+    const iconName = document.getElementById('iconName');
+    const iconDate = document.getElementById('iconDate');
+    const iconSize = document.getElementById('iconSize');
+
+    [thName, thDate, thSize].forEach(th => th.classList.remove('sort-active'));
+    iconName.textContent = '';
+    iconDate.textContent = '';
+    iconSize.textContent = '';
+
+    if (sortVal === 'name_asc') {
+      thName.classList.add('sort-active');
+      iconName.textContent = ' ▲';
+    } else if (sortVal === 'name_desc') {
+      thName.classList.add('sort-active');
+      iconName.textContent = ' ▼';
+    } else if (sortVal === 'date_desc') {
+      thDate.classList.add('sort-active');
+      iconDate.textContent = ' ▼';
+    } else if (sortVal === 'date_asc') {
+      thDate.classList.add('sort-active');
+      iconDate.textContent = ' ▲';
+    } else if (sortVal === 'size_desc') {
+      thSize.classList.add('sort-active');
+      iconSize.textContent = ' ▼';
+    } else if (sortVal === 'size_asc') {
+      thSize.classList.add('sort-active');
+      iconSize.textContent = ' ▲';
+    }
+  }
+
+  function toggleColumnSort(col) {
+    const sel = document.getElementById('sortSelect');
+    const current = sel.value;
+
+    if (col === 'name') {
+      sel.value = current === 'name_asc' ? 'name_desc' : 'name_asc';
+    } else if (col === 'date') {
+      sel.value = current === 'date_desc' ? 'date_asc' : 'date_desc';
+    } else if (col === 'size') {
+      sel.value = current === 'size_desc' ? 'size_asc' : 'size_desc';
+    }
+    render();
+  }
+
+  function render() {
+    const q = document.getElementById('searchInput').value.trim().toLowerCase();
+    const sortVal = document.getElementById('sortSelect').value;
+
+    updateTableHeaders(sortVal);
+
+    let filtered = files.filter(f => {
+      if (onlyFav && !favorites.has(f.name)) return false;
+      if (!q) return true;
+      const allTags = (f.tags || []).map(t => t.toLowerCase());
+      return f.name.toLowerCase().includes(q) || allTags.some(t => t.includes(q));
+    });
+
+    if (sortVal !== 'none') {
+      filtered.sort((a, b) => {
+        if (sortVal === 'name_asc') return a.name.localeCompare(b.name, undefined, { numeric: true, sensitivity: 'base' });
+        if (sortVal === 'name_desc') return b.name.localeCompare(a.name, undefined, { numeric: true, sensitivity: 'base' });
+        if (sortVal === 'size_desc') return b.size - a.size;
+        if (sortVal === 'size_asc') return a.size - b.size;
+        if (sortVal === 'date_desc') return (b.date || '').localeCompare(a.date || '');
+        if (sortVal === 'date_asc') return (a.date || '').localeCompare(b.date || '');
+        return 0;
+      });
+    }
+
+    document.getElementById('statusCount').textContent = `Showing ${filtered.length} of ${files.length} items`;
+
+    const grid = document.getElementById('containerGrid');
+    const tableBody = document.getElementById('tableBody');
+
+    if (activeView === 'grid') {
+      grid.style.display = 'grid';
+      document.getElementById('containerDetails').style.display = 'none';
+
+      grid.innerHTML = filtered.map(f => {
+        const isFav = favorites.has(f.name);
+        const thumbUrl = getThumbUrl(f.name);
+        const ext = f.name.split('.').pop().toLowerCase();
+        const isVid = ['mp4', 'webm', 'mov', 'mkv', 'mts'].includes(ext);
+
+        let mediaMarkup = `<img class="gallery-thumb" src="${thumbUrl}" loading="lazy" onerror="this.src='logo.svg';this.style.padding='2rem';" alt="" />`;
+        if (isVid) {
+          mediaMarkup += `<video class="gallery-video-preview" preload="none" muted loop playsinline></video>`;
+        }
+
+        return `
+          <div class="gallery-item" 
+               onclick='openPreview(${JSON.stringify(f)})' 
+               oncontextmenu='showContextMenu(event, ${JSON.stringify(f)})'
+               onmouseenter='handleTileEnter(this, ${JSON.stringify(f)})'
+               onmouseleave='handleTileLeave(this)'>
+            ${mediaMarkup}
+            <div class="gallery-fav-badge ${isFav ? 'active' : ''}">★</div>
+            <div class="gallery-overlay">
+              <div class="gallery-title" title="${f.name}">${f.name}</div>
+              <div class="gallery-sub">${formatBytes(f.size)}</div>
+            </div>
+          </div>
+        `;
+      }).join('');
+    } else {
+      grid.style.display = 'none';
+      document.getElementById('containerDetails').style.display = 'block';
+
+      tableBody.innerHTML = filtered.map(f => {
+        const isFav = favorites.has(f.name);
+
+        return `
+          <tr oncontextmenu='showContextMenu(event, ${JSON.stringify(f)})'>
+            <td class="cell-fav ${isFav ? 'active' : ''}" onclick="toggleFav('${f.name.replace(/'/g, "\\'")}', event)">★</td>
+            <td>
+              <div class="col-name" onclick='openPreview(${JSON.stringify(f)})'>
+                <svg viewBox="0 0 24 24"><path d="M4 6H2v14c0 1.1.9 2 2 2h14v-2H4V6zm16-4H8c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 14H8V4h12v12z"/></svg>
+                <span title="${f.name}">${f.name}</span>
+              </div>
+            </td>
+            <td class="col-mono">${f.date || '-'}</td>
+            <td class="col-mono">${formatBytes(f.size)}</td>
+            <td style="text-align: right;">
+              <button class="btn-toggle" style="display:inline-flex; padding:0.25rem 0.5rem; border:1px solid var(--line);" onclick='openPreview(${JSON.stringify(f)})'>View</button>
+            </td>
+          </tr>
+        `;
+      }).join('');
+    }
+  }
+
+  // Column header click bindings
+  document.getElementById('thName').addEventListener('click', () => toggleColumnSort('name'));
+  document.getElementById('thDate').addEventListener('click', () => toggleColumnSort('date'));
+  document.getElementById('thSize').addEventListener('click', () => toggleColumnSort('size'));
+
+  // Video Player controls
+  document.getElementById('ytPlayPauseBtn').addEventListener('click', () => {
+    if (!activeVideoEl) return;
+    if (activeVideoEl.paused) activeVideoEl.play();
+    else activeVideoEl.pause();
+    resetUiTimer();
+  });
+
+  document.getElementById('ytMuteBtn').addEventListener('click', () => {
+    if (!activeVideoEl) return;
+    activeVideoEl.muted = !activeVideoEl.muted;
+    resetUiTimer();
+  });
+
+  document.getElementById('ytProgress').addEventListener('click', (e) => {
+    if (!activeVideoEl || !activeVideoEl.duration) return;
+    const rect = e.currentTarget.getBoundingClientRect();
+    const pos = (e.clientX - rect.left) / rect.width;
+    activeVideoEl.currentTime = pos * activeVideoEl.duration;
+    resetUiTimer();
+  });
+
+  document.getElementById('ytFullscreenBtn').addEventListener('click', () => {
+    const container = document.getElementById('ytContainer');
+    if (!document.fullscreenElement) {
+      container.requestFullscreen().catch(() => {});
+    } else {
+      document.exitFullscreen().catch(() => {});
+    }
+  });
+
+  document.getElementById('ytDownloadBtn').addEventListener('click', () => triggerDownload(currentPreviewFile));
+  document.getElementById('photoDownloadBtn').addEventListener('click', () => triggerDownload(currentPreviewFile));
+  document.getElementById('ctxDownload').addEventListener('click', () => {
+    if (contextTarget) triggerDownload(contextTarget);
+    hideContextMenu();
+  });
+
+  document.getElementById('ytContainer').addEventListener('mousemove', resetUiTimer);
+  document.getElementById('previewModal').addEventListener('click', (e) => {
+    if (e.target.id === 'previewModal') closeModal();
+  });
+
+  // Context Menu handlers
+  document.getElementById('ctxPlay').addEventListener('click', () => {
+    if (contextTarget) openPreview(contextTarget);
+    hideContextMenu();
+  });
+  document.getElementById('ctxFav').addEventListener('click', () => {
+    if (contextTarget) toggleFav(contextTarget.name);
+    hideContextMenu();
+  });
+  window.addEventListener('click', hideContextMenu);
+
+  // Global events
+  document.getElementById('searchInput').addEventListener('input', render);
+  document.getElementById('sortSelect').addEventListener('change', render);
+
+  document.getElementById('favFilterBtn').addEventListener('click', () => {
+    onlyFav = !onlyFav;
+    document.getElementById('favFilterBtn').classList.toggle('active', onlyFav);
+    render();
+  });
+
+  document.getElementById('thumbViewBtn').addEventListener('click', () => {
+    activeView = 'grid';
+    document.getElementById('thumbViewBtn').classList.add('active');
+    document.getElementById('detailViewBtn').classList.remove('active');
+    render();
+  });
+
+  document.getElementById('detailViewBtn').addEventListener('click', () => {
+    activeView = 'details';
+    document.getElementById('detailViewBtn').classList.add('active');
+    document.getElementById('thumbViewBtn').classList.remove('active');
+    render();
+  });
+
+  window.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+      closeModal();
+      hideContextMenu();
+    }
+  });
+
+  // Init
+  saveFavorites();
+  fetch('files.json')
+    .then(res => res.json())
+    .then(data => {
+      files = data;
+      render();
+    })
+    .catch(err => {
+      document.getElementById('statusCount').textContent = 'Error loading files.';
+      console.error(err);
+    });
+</script>
+</body>
+</html>
