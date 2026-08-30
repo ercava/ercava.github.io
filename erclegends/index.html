@@ -571,6 +571,20 @@
     }
     .photo-tool-btn:hover { color: var(--primary); }
     .photo-tool-btn svg { width: 16px; height: 16px; fill: currentColor; }
+
+    /* Loading spinner */
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .yt-spinner {
+      width: 40px; height: 40px;
+      border: 3px solid rgba(255,255,255,0.2);
+      border-top-color: #e11d48;
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+    }
+    /* Tile loading pulse for non-split hover */
+    .gallery-item.tile-loading .gallery-thumb {
+      opacity: 0.5;
+    }
   </style>
 </head>
 <body>
@@ -663,6 +677,12 @@
   <!-- 1. YouTube-Style Video Player -->
   <div class="yt-player-container show-ui" id="ytContainer" style="display:none;">
     <div id="ytMediaArea" style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;"></div>
+
+    <!-- Loading Overlay -->
+    <div id="ytLoadingOverlay" style="display:none;position:absolute;inset:0;z-index:10;background:rgba(0,0,0,0.75);display:none;flex-direction:column;align-items:center;justify-content:center;gap:1rem;">
+      <div class="yt-spinner"></div>
+      <div class="yt-loading-text" style="color:#e2e8f0;font-size:0.85rem;font-family:'Roboto Mono',monospace;"></div>
+    </div>
     
     <div class="yt-ui-overlay" id="ytOverlay">
       <div class="yt-top-bar">
@@ -785,42 +805,116 @@
     return 'thumbs/' + encodeURIComponent(base + '.webp');
   }
 
-  // Seamless Stitcher for split files (MSE / Blob)
-  async function getMediaSourceUrl(file) {
-    if (!file.isSplit) {
-      return 'videos/' + encodeURIComponent(file.name);
-    }
-    if (blobUrlCache.has(file.name)) {
-      return blobUrlCache.get(file.name);
-    }
-
-    // Fetch all parts and stitch into a single Blob
-    const partBuffers = await Promise.all(
-      file.chunks.map(chunkName =>
-        fetch('videos/' + encodeURIComponent(chunkName)).then(r => r.arrayBuffer())
-      )
-    );
-    const mime = file.name.endsWith('.mp4') ? 'video/mp4' : (file.name.endsWith('.webm') ? 'video/webm' : 'video/quicktime');
-    const stitchedBlob = new Blob(partBuffers, { type: mime });
-    const blobUrl = URL.createObjectURL(stitchedBlob);
-    blobUrlCache.set(file.name, blobUrl);
-    return blobUrl;
+  // Show/hide spinner overlay on the YT modal
+  function setModalLoading(on, msg = '') {
+    let el = document.getElementById('ytLoadingOverlay');
+    if (!el) return;
+    el.style.display = on ? 'flex' : 'none';
+    if (msg) el.querySelector('.yt-loading-text').textContent = msg;
   }
 
-  // Download stitched file or regular file
+  // For split files: stream chunks progressively via MediaSource
+  async function streamSplitFile(videoEl, file) {
+    const mime = file.name.toLowerCase().endsWith('.webm') ? 'video/webm; codecs="vp8,vorbis"' : 'video/mp4; codecs="avc1.42E01E,mp4a.40.2"';
+
+    if (!MediaSource.isTypeSupported(mime)) {
+      // Fallback: blob stitch (memory-heavy but works for any format)
+      setModalLoading(true, `Stitching ${file.chunks.length} parts…`);
+      if (blobUrlCache.has(file.name)) {
+        videoEl.src = blobUrlCache.get(file.name);
+        setModalLoading(false);
+        return;
+      }
+      let loaded = 0;
+      const buffers = [];
+      for (const chunk of file.chunks) {
+        loaded++;
+        setModalLoading(true, `Loading part ${loaded}/${file.chunks.length}…`);
+        const ab = await fetch('videos/' + encodeURIComponent(chunk)).then(r => r.arrayBuffer());
+        buffers.push(ab);
+      }
+      const blob = new Blob(buffers, { type: mime.split(';')[0] });
+      const url = URL.createObjectURL(blob);
+      blobUrlCache.set(file.name, url);
+      videoEl.src = url;
+      setModalLoading(false);
+      return;
+    }
+
+    // MediaSource progressive streaming
+    if (blobUrlCache.has(file.name)) {
+      videoEl.src = blobUrlCache.get(file.name);
+      return;
+    }
+
+    const ms = new MediaSource();
+    const msUrl = URL.createObjectURL(ms);
+    videoEl.src = msUrl;
+
+    ms.addEventListener('sourceopen', async () => {
+      const sb = ms.addSourceBuffer(mime);
+      let chunkIdx = 0;
+
+      const appendNext = async () => {
+        if (chunkIdx >= file.chunks.length) {
+          if (!ms.readyState !== 'closed') ms.endOfStream();
+          blobUrlCache.set(file.name, msUrl);
+          setModalLoading(false);
+          return;
+        }
+        const chunk = file.chunks[chunkIdx];
+        setModalLoading(true, `Loading part ${chunkIdx + 1}/${file.chunks.length}…`);
+        try {
+          const ab = await fetch('videos/' + encodeURIComponent(chunk)).then(r => r.arrayBuffer());
+          chunkIdx++;
+          // Wait for SourceBuffer to be ready
+          if (sb.updating) await new Promise(r => sb.addEventListener('updateend', r, { once: true }));
+          sb.appendBuffer(ab);
+          if (chunkIdx === 1) {
+            setModalLoading(false); // Show player after first chunk buffered
+            videoEl.play().catch(() => {});
+          }
+          sb.addEventListener('updateend', appendNext, { once: true });
+        } catch (err) {
+          console.error('Chunk fetch error', chunk, err);
+          setModalLoading(true, 'Error loading chunk, retrying…');
+          setTimeout(appendNext, 2000);
+        }
+      };
+      appendNext();
+    }, { once: true });
+  }
+
+  // Simple direct URL for non-split files
+  function getDirectUrl(file) {
+    return 'videos/' + encodeURIComponent(file.name);
+  }
+
+  // Download: sequential stitch to single blob then save
   async function triggerDownload(file) {
     if (!file) return;
     if (file.isSplit) {
-      const url = await getMediaSourceUrl(file);
+      setModalLoading(true, 'Preparing download…');
+      const buffers = [];
+      for (let i = 0; i < file.chunks.length; i++) {
+        setModalLoading(true, `Preparing download: part ${i + 1}/${file.chunks.length}…`);
+        const ab = await fetch('videos/' + encodeURIComponent(file.chunks[i])).then(r => r.arrayBuffer());
+        buffers.push(ab);
+      }
+      const mime = file.name.toLowerCase().endsWith('.mov') ? 'video/quicktime' : 'video/mp4';
+      const blob = new Blob(buffers, { type: mime });
+      const url = URL.createObjectURL(blob);
       const a = document.createElement('a');
       a.href = url;
       a.download = file.name;
       document.body.appendChild(a);
       a.click();
       a.remove();
+      setTimeout(() => URL.revokeObjectURL(url), 60000);
+      setModalLoading(false);
     } else {
       const a = document.createElement('a');
-      a.href = 'videos/' + encodeURIComponent(file.name);
+      a.href = getDirectUrl(file);
       a.download = file.name;
       document.body.appendChild(a);
       a.click();
@@ -828,13 +922,15 @@
     }
   }
 
-  // Hover video stream
-  async function handleTileEnter(el, file) {
+  // Hover video preview — skip for split files (too heavy)
+  function handleTileEnter(el, file) {
+    if (file.isSplit) return; // Too large to stream on hover
     const v = el.querySelector('video');
     if (!v) return;
     el.classList.add('playing');
-    if (!v.src) {
-      v.src = await getMediaSourceUrl(file);
+    if (!v.dataset.loaded) {
+      v.src = getDirectUrl(file);
+      v.dataset.loaded = '1';
     }
     v.play().catch(() => {});
   }
@@ -846,6 +942,7 @@
     v.pause();
     v.currentTime = 0;
   }
+
 
   // Context Menu
   function showContextMenu(e, file) {
@@ -889,14 +986,16 @@
     } else {
       document.getElementById('ytTitle').textContent = file.name;
       const mediaArea = document.getElementById('ytMediaArea');
-      const mediaUrl = await getMediaSourceUrl(file);
 
       if (['mp4', 'webm', 'mov', 'mkv', 'mts'].includes(ext)) {
         const vid = document.createElement('video');
-        vid.src = mediaUrl;
-        vid.autoplay = true;
         mediaArea.appendChild(vid);
         activeVideoEl = vid;
+
+        // Buffering indicators
+        vid.addEventListener('waiting', () => setModalLoading(true, 'Buffering…'));
+        vid.addEventListener('playing', () => setModalLoading(false));
+        vid.addEventListener('canplay', () => setModalLoading(false));
 
         vid.addEventListener('timeupdate', () => {
           const pct = (vid.currentTime / vid.duration) * 100;
@@ -909,9 +1008,22 @@
         vid.addEventListener('pause', () => {
           document.getElementById('ytPlayIcon').innerHTML = '<path d="M8 5v14l11-7z"/>';
         });
+        vid.addEventListener('error', () => {
+          setModalLoading(true, 'Error loading video.');
+        });
+
+        if (file.isSplit) {
+          // Progressive MSE streaming
+          setModalLoading(true, 'Loading…');
+          await streamSplitFile(vid, file);
+        } else {
+          setModalLoading(true, 'Loading…');
+          vid.src = getDirectUrl(file);
+          vid.autoplay = true;
+        }
       } else if (['mp3', 'wav', 'ogg'].includes(ext)) {
         const aud = document.createElement('audio');
-        aud.src = mediaUrl;
+        aud.src = getDirectUrl(file);
         aud.autoplay = true;
         mediaArea.appendChild(aud);
         activeVideoEl = aud;
@@ -922,6 +1034,7 @@
 
     document.getElementById('previewModal').classList.add('open');
   }
+
 
   function closeModal() {
     document.getElementById('previewModal').classList.remove('open');
