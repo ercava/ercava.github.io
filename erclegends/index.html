@@ -540,7 +540,7 @@
       height: auto;
       object-fit: contain;
       user-select: none;
-      transition: transform 0.2s ease-out;
+      transition: transform 0.2s ease-out, opacity 0.3s ease, filter 0.3s ease;
       transform-origin: center center;
     }
 
@@ -978,6 +978,17 @@
     if (isPhoto) {
       document.getElementById('photoTitle').textContent = file.name;
       const pImg = document.getElementById('photoImg');
+      pImg.style.opacity = '0.3';
+      pImg.style.filter = 'blur(4px)';
+      pImg.onload = () => {
+        pImg.style.opacity = '1';
+        pImg.style.filter = '';
+      };
+      pImg.onerror = () => {
+        pImg.style.opacity = '1';
+        pImg.style.filter = '';
+        pImg.alt = 'Failed to load image';
+      };
       pImg.src = 'videos/' + encodeURIComponent(file.name);
       currentZoom = 1;
       currentRotation = 0;
