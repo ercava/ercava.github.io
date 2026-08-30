@@ -1,18 +1,5 @@
 [
   {
-    "name": "00428-at-2024-06-27T14_58_00.292Z-pinned.MTS",
-    "size": 14450688,
-    "date": "2026-08-15 20:26",
-    "tags": [
-      "cat",
-      "person"
-    ],
-    "visualObjects": [
-      "cat",
-      "person"
-    ]
-  },
-  {
     "name": "0816(1) - comp.mp4",
     "size": 35430734,
     "date": "2026-08-29 21:58",
@@ -158,21 +145,6 @@
     ]
   },
   {
-    "name": "Copy of Copy of IMG_1866.MOV",
-    "size": 16528042,
-    "date": "2026-08-16 08:44",
-    "tags": [
-      "clock",
-      "person",
-      "wine glass"
-    ],
-    "visualObjects": [
-      "clock",
-      "person",
-      "wine glass"
-    ]
-  },
-  {
     "name": "Copy of ercstories.png",
     "size": 3618362,
     "date": "2026-08-29 21:22",
@@ -185,41 +157,6 @@
     ],
     "visualObjects": [
       "person"
-    ]
-  },
-  {
-    "name": "Copy of MVI_7363.MOV",
-    "size": 273404212,
-    "date": "2026-08-15 19:00",
-    "tags": [
-      "person"
-    ],
-    "visualObjects": [
-      "person"
-    ],
-    "isSplit": true,
-    "chunks": [
-      "Copy of MVI_7363.MOV.part000",
-      "Copy of MVI_7363.MOV.part001",
-      "Copy of MVI_7363.MOV.part002",
-      "Copy of MVI_7363.MOV.part003",
-      "Copy of MVI_7363.MOV.part004",
-      "Copy of MVI_7363.MOV.part005"
-    ]
-  },
-  {
-    "name": "Copy of MVI_9267.MOV",
-    "size": 36414716,
-    "date": "2026-08-16 10:25",
-    "tags": [
-      "person",
-      "suitcase",
-      "tie"
-    ],
-    "visualObjects": [
-      "person",
-      "suitcase",
-      "tie"
     ]
   },
   {
@@ -743,39 +680,6 @@
     ]
   },
   {
-    "name": "IMG_2310.MOV",
-    "size": 3399763,
-    "date": "2026-08-29 12:19",
-    "tags": [
-      "person"
-    ],
-    "visualObjects": [
-      "person"
-    ]
-  },
-  {
-    "name": "IMG_5377.MOV",
-    "size": 12345067,
-    "date": "2026-08-29 12:49",
-    "tags": [
-      "person"
-    ],
-    "visualObjects": [
-      "person"
-    ]
-  },
-  {
-    "name": "IMG_5383.MOV",
-    "size": 11884031,
-    "date": "2026-08-29 12:49",
-    "tags": [
-      "person"
-    ],
-    "visualObjects": [
-      "person"
-    ]
-  },
-  {
     "name": "jw2LeOVQphYFR0l7fnR5ax72SPhMpSiEmfB0oYCY0QU=.tmp",
     "size": 16056320,
     "date": "2026-08-15 20:35",
@@ -887,58 +791,6 @@
     ]
   },
   {
-    "name": "MVI_0322.MOV",
-    "size": 68208732,
-    "date": "2026-08-15 20:35",
-    "tags": [
-      "person"
-    ],
-    "visualObjects": [
-      "person"
-    ]
-  },
-  {
-    "name": "MVI_3506.MOV",
-    "size": 558944424,
-    "date": "2026-08-16 08:48",
-    "tags": [
-      "person",
-      "surfboard"
-    ],
-    "visualObjects": [
-      "person",
-      "surfboard"
-    ],
-    "isSplit": true,
-    "chunks": [
-      "MVI_3506.MOV.part000",
-      "MVI_3506.MOV.part001",
-      "MVI_3506.MOV.part002",
-      "MVI_3506.MOV.part003",
-      "MVI_3506.MOV.part004",
-      "MVI_3506.MOV.part005",
-      "MVI_3506.MOV.part006",
-      "MVI_3506.MOV.part007",
-      "MVI_3506.MOV.part008",
-      "MVI_3506.MOV.part009",
-      "MVI_3506.MOV.part010",
-      "MVI_3506.MOV.part011"
-    ]
-  },
-  {
-    "name": "MVI_8839-at-2024-06-27T15_00_04.059Z-pinned.MOV",
-    "size": 87362900,
-    "date": "2026-08-15 19:00",
-    "tags": [
-      "chair",
-      "person"
-    ],
-    "visualObjects": [
-      "chair",
-      "person"
-    ]
-  },
-  {
     "name": "MVI_9746.mp4",
     "size": 23771438,
     "date": "2026-08-16 10:48",
@@ -949,34 +801,6 @@
     "visualObjects": [
       "person",
       "tie"
-    ]
-  },
-  {
-    "name": "MVI_9962.MOV",
-    "size": 32770200,
-    "date": "2026-08-29 12:45",
-    "tags": [
-      "chair",
-      "elephant",
-      "person"
-    ],
-    "visualObjects": [
-      "chair",
-      "elephant",
-      "person"
-    ]
-  },
-  {
-    "name": "MVI_9973.MOV",
-    "size": 46883316,
-    "date": "2026-08-29 12:45",
-    "tags": [
-      "dog",
-      "person"
-    ],
-    "visualObjects": [
-      "dog",
-      "person"
     ]
   },
   {
@@ -2209,6 +2033,164 @@
     "visualObjects": [
       "person",
       "wine glass"
+    ]
+  },
+  {
+    "name": "00428-at-2024-06-27T14_58_00.292Z-pinned.mp4",
+    "size": 4735300,
+    "date": "2026-08-15 20:26",
+    "tags": [
+      "cat",
+      "person"
+    ],
+    "visualObjects": [
+      "cat",
+      "person"
+    ]
+  },
+  {
+    "name": "Copy of Copy of IMG_1866.mp4",
+    "size": 9628349,
+    "date": "2026-08-16 08:44",
+    "tags": [
+      "clock",
+      "person",
+      "wine glass"
+    ],
+    "visualObjects": [
+      "clock",
+      "person",
+      "wine glass"
+    ]
+  },
+  {
+    "name": "Copy of MVI_7363.mp4",
+    "size": 60331365,
+    "date": "2026-08-15 19:00",
+    "tags": [
+      "person"
+    ],
+    "visualObjects": [
+      "person"
+    ]
+  },
+  {
+    "name": "Copy of MVI_9267.mp4",
+    "size": 5520233,
+    "date": "2026-08-16 10:25",
+    "tags": [
+      "person",
+      "suitcase",
+      "tie"
+    ],
+    "visualObjects": [
+      "person",
+      "suitcase",
+      "tie"
+    ]
+  },
+  {
+    "name": "IMG_2310.mp4",
+    "size": 1890136,
+    "date": "2026-08-29 12:19",
+    "tags": [
+      "person"
+    ],
+    "visualObjects": [
+      "person"
+    ]
+  },
+  {
+    "name": "IMG_5377.mp4",
+    "size": 6053165,
+    "date": "2026-08-29 12:49",
+    "tags": [
+      "person"
+    ],
+    "visualObjects": [
+      "person"
+    ]
+  },
+  {
+    "name": "IMG_5383.mp4",
+    "size": 6930577,
+    "date": "2026-08-29 12:49",
+    "tags": [
+      "person"
+    ],
+    "visualObjects": [
+      "person"
+    ]
+  },
+  {
+    "name": "MVI_0322.mp4",
+    "size": 19078506,
+    "date": "2026-08-15 20:35",
+    "tags": [
+      "person"
+    ],
+    "visualObjects": [
+      "person"
+    ]
+  },
+  {
+    "name": "MVI_3506.mp4",
+    "size": 134665153,
+    "date": "2026-08-16 08:48",
+    "tags": [
+      "person",
+      "surfboard"
+    ],
+    "visualObjects": [
+      "person",
+      "surfboard"
+    ],
+    "isSplit": true,
+    "chunks": [
+      "MVI_3506.mp4.part000",
+      "MVI_3506.mp4.part001",
+      "MVI_3506.mp4.part002"
+    ]
+  },
+  {
+    "name": "MVI_8839-at-2024-06-27T15_00_04.059Z-pinned.mp4",
+    "size": 13161365,
+    "date": "2026-08-15 19:00",
+    "tags": [
+      "chair",
+      "person"
+    ],
+    "visualObjects": [
+      "chair",
+      "person"
+    ]
+  },
+  {
+    "name": "MVI_9962.mp4",
+    "size": 5616303,
+    "date": "2026-08-29 12:45",
+    "tags": [
+      "chair",
+      "elephant",
+      "person"
+    ],
+    "visualObjects": [
+      "chair",
+      "elephant",
+      "person"
+    ]
+  },
+  {
+    "name": "MVI_9973.mp4",
+    "size": 8082315,
+    "date": "2026-08-29 12:45",
+    "tags": [
+      "dog",
+      "person"
+    ],
+    "visualObjects": [
+      "dog",
+      "person"
     ]
   }
 ]
