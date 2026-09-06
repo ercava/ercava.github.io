@@ -2,8 +2,8 @@
   "snapshots": [
     {
       "date": "2026-09-06",
-      "timestamp": "2026-09-06T11:30:16.912Z",
-      "hash": "e2355765b4d2d979c0bde7577e6fb905e350446883932f25fafafc5adcd0324b",
+      "timestamp": "2026-09-06T14:50:06.873Z",
+      "hash": "cca8d6df76e5aebc657cf1c32b15d9a4bf5f8d88a9d9a951e387e7f23687592e",
       "file": "snapshots/2026-09-06.json.gz",
       "routes": [
         "/",
@@ -72,7 +72,6 @@
         "/tools/rarity/privacy.html",
         "/tools/rarity/terms.html",
         "/tools/search/",
-        "/tools/search/legacy/",
         "/tools/shortlink/",
         "/tools/snbt/",
         "/tools/snbt/campus.html",
@@ -82,6 +81,7 @@
         "/tools/snbt/spiritual.html",
         "/tools/snbt/streak.html",
         "/tools/snbt/todo.html",
+        "/tools/status/",
         "/tools/twibbon-pestamerta/",
         "/tools/utbk2025/ercavian-utbk/",
         "/tools/wheel/",
