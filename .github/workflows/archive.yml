@@ -33,6 +33,9 @@ jobs:
       - name: Pull latest changes
         run: git pull origin ${{ github.ref_name }}
 
+      - name: Generate Site Archive
+        run: node archive.js
+
       - name: Commit and push updated archive
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
