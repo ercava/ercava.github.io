@@ -2,8 +2,8 @@
   "snapshots": [
     {
       "date": "2026-09-08",
-      "timestamp": "2026-09-08T12:53:07.289Z",
-      "hash": "2e7b1a3715517461b7250f2870e41ecab786f13ad8156849a953cb2bc01e77c0",
+      "timestamp": "2026-09-08T13:08:12.599Z",
+      "hash": "7fc17b47f68b0c4caaf0cc2cc1f071c920216ccb76faf14a2f6483ad3fd09577",
       "file": "snapshots/2026-09-08.json.gz",
       "routes": [
         "/",
@@ -29,6 +29,7 @@
         "/ss/",
         "/the-archivist-oath/",
         "/tools/",
+        "/tools/404.html",
         "/tools/PEGASUS/",
         "/tools/PEGASUS/search/",
         "/tools/alumni/",
