@@ -2,8 +2,8 @@
   "snapshots": [
     {
       "date": "2026-09-08",
-      "timestamp": "2026-09-08T05:18:27.359Z",
-      "hash": "2e258c77a1cab7c1baf0b361ee2af696a38495690749f04b6958332f2b95209d",
+      "timestamp": "2026-09-08T05:29:09.081Z",
+      "hash": "b5d7e87fc4f5263609d981c0411b0666227184a8e37e7be4bdb56bc5a6ea43b1",
       "file": "snapshots/2026-09-08.json.gz",
       "routes": [
         "/",
@@ -73,6 +73,7 @@
         "/tools/rarity/privacy.html",
         "/tools/rarity/status/",
         "/tools/rarity/terms.html",
+        "/tools/rarity/versions/",
         "/tools/search/",
         "/tools/shortlink/",
         "/tools/snbt/",
