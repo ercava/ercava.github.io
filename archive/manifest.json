@@ -2,8 +2,8 @@
   "snapshots": [
     {
       "date": "2026-09-09",
-      "timestamp": "2026-09-09T10:59:18.356Z",
-      "hash": "c1bde6cd42e8edc0f48cd25ea6e79eb2caf85a98601e23eba3e6bd854362944c",
+      "timestamp": "2026-09-09T11:32:53.865Z",
+      "hash": "0217e68dfaef9d26bd20eb1d3b0c1ba996be6741ccf74a012d3a6a84155a2d22",
       "file": "snapshots/2026-09-09.json.gz",
       "routes": [
         "/",
@@ -87,6 +87,7 @@
         "/tools/snbt/streak.html",
         "/tools/snbt/todo.html",
         "/tools/status/",
+        "/tools/team/",
         "/tools/twibbon-pestamerta/",
         "/tools/utbk2025/ercavian-utbk/",
         "/tools/wheel/",
