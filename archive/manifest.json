@@ -2,8 +2,8 @@
   "snapshots": [
     {
       "date": "2026-09-11",
-      "timestamp": "2026-09-11T17:13:29.469Z",
-      "hash": "c3daa9def3d4a9cc9c11704a51750ce82102061e3c565b6563ecc4b7314970d3",
+      "timestamp": "2026-09-11T17:39:41.701Z",
+      "hash": "782251d6a508e192710c5ef16b2ccfff7ca0e0a25e5f4a1a80404744aedd60e7",
       "file": "snapshots/2026-09-11.json.gz",
       "routes": [
         "/",
@@ -32,6 +32,7 @@
         "/tools/404.html",
         "/tools/PEGASUS/",
         "/tools/PEGASUS/queue/",
+        "/tools/PEGASUS/queue/admin.html",
         "/tools/PEGASUS/search/",
         "/tools/alumni/",
         "/tools/alumni/example.html",
